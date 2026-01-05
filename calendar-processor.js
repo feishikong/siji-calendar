@@ -9,19 +9,19 @@ class CalendarProcessor {
   constructor() {
     // Current 13-month structure
     this.calendarStructure = [
-      { name: 'March', days: 28, startDay: 1 },
-      { name: 'April', days: 28, startDay: 29 },
-      { name: 'May', days: 28, startDay: 57 },
-      { name: 'June', days: 28, startDay: 85 },
-      { name: 'July', days: 28, startDay: 113 },
-      { name: 'August', days: 28, startDay: 141 },
-      { name: 'September', days: 28, startDay: 169 },
-      { name: 'October', days: 28, startDay: 197 },
-      { name: 'November', days: 28, startDay: 225 },
-      { name: 'December', days: 28, startDay: 253 },
-      { name: 'January', days: 28, startDay: 281 },
-      { name: 'February', days: 28, startDay: 309 },
-      { name: 'Sol', days: 28, startDay: 337 } // Ends on day 364
+      { name: 'Ichika', days: 28, startDay: 1 },
+      { name: 'Futaba', days: 28, startDay: 29 },
+      { name: 'Mikasa', days: 28, startDay: 57 },
+      { name: 'Yotsuba', days: 28, startDay: 85 },
+      { name: 'Itsuki', days: 28, startDay: 113 },
+      { name: 'Mutsumi', days: 28, startDay: 141 },
+      { name: 'Nanako', days: 28, startDay: 169 },
+      { name: 'Yabuki', days: 28, startDay: 197 },
+      { name: 'Kokoro', days: 28, startDay: 225 },
+      { name: 'Tobira', days: 28, startDay: 253 },
+      { name: 'Toichi', days: 28, startDay: 281 },
+      { name: 'Tofuro', days: 28, startDay: 309 },
+      { name: 'Tomita', days: 28, startDay: 337 } // Ends on day 364
     ];
     this.totalDaysInMonths = 364;
 
@@ -214,7 +214,7 @@ class CalendarProcessor {
           gregRange = startM === endM ? startM : `${startM}-${endM}`;
       }
       return {
-          main: `${month.name} / (${monthIndex + 1}/13)`,
+          main: `${month.name}`,
           sub: `Gregorian: ${gregRange}`
       };
   }
