@@ -159,8 +159,9 @@
         const monthDiv = document.createElement('div');
         monthDiv.className = 'month'; monthDiv.id = `month-${monthIndex}`;
 
+        console.log(calendarProcessor.firstDayOfYear[selectedYear]);
         // Headers: Mon -> Sun
-        for (let i = 1; i <= 7; i++) {
+        for (let i = calendarProcessor.firstDayOfYear[selectedYear]; i <= calendarProcessor.firstDayOfYear[selectedYear] + 6; i++) {
             const dayIndex = i % 7;
             const header = document.createElement('div'); header.className = 'header';
             header.textContent = calendarProcessor.dayNames[dayIndex]; monthDiv.appendChild(header);

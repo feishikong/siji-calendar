@@ -28,6 +28,7 @@ class CalendarProcessor {
     this.gregorianMonths = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
     this.dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
     this.dayNamesFull = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    this.firstDayOfYear = {};
 
     this.vernalEquinoxData = {}; // Populated by loadVernalEquinoxData
     this.solarYearStartDateCache = {}; // Cache for Gregorian start date of each Solar year
@@ -92,24 +93,18 @@ class CalendarProcessor {
       }
 
       const equinoxDate = new Date(vernalEquinoxStr + 'T00:00:00Z');
-      const dayOfWeek = equinoxDate.getUTCDay(); // 0=Sun, 1=Mon
 
       let daysToAdd = 0;
-      if (dayOfWeek !== 1) { // If not Monday
-          daysToAdd = (8 - dayOfWeek) % 7;
-      }
 
-      const startDate = new Date(equinoxDate);
-      startDate.setUTCDate(equinoxDate.getUTCDate() + daysToAdd);
-
-      this.solarYearStartDateCache[solarYear] = startDate;
-      return startDate;
+      this.solarYearStartDateCache[solarYear] = equinoxDate;
+      return equinoxDate;
   }
 
    /** Pre-calculate and cache start dates for the relevant range */
    preCalculateYearStartDates() {
        for (let year = 1900; year <= 2100; year++) {
            this.getSolarYearStartDate(year); // Calculate and cache
+           this.firstDayOfYear[year] = this.getSolarYearStartDate(year).getUTCDay();
        }
    }
 
