@@ -36,7 +36,7 @@ Please follow these conventions when contributing:
    cd solar-calendar
    ```
 
-2. Open `solar-calendar.html` or `gregorian-calendar.html` in your browser — no build tools required!
+2. Open `index.html` or `gregorian-calendar.html` in your browser — no build tools required!
 
 ---
 
@@ -48,7 +48,7 @@ By contributing, you agree that your code will be licensed under the [GNU GPL v3
 
 ## 🙋 Questions?
 
-Open an [issue](https://github.com/tomgould/solar-calendar/issues) and we’ll get back to you!
+Open an [issue](https://github.com/feishikong/solar-calendar/issues) and we’ll get back to you!
 
 ---
 

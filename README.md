@@ -6,7 +6,7 @@ A comprehensive dual-calendar system displaying both Solar (Persian) and Gregori
 ## Files
 
 ### HTML Files
-- **solar-calendar.html** - Solar calendar with Gregorian date references
+- **index.html** - Solar calendar with Gregorian date references
 - **gregorian-calendar.html** - Gregorian calendar with Solar date references
 
 ### JavaScript
@@ -126,7 +126,7 @@ formatGregorianMonthTitle(gregorianMonthIndex)
 ### Basic Setup
 All three files must be in the same directory:
 ```
-solar-calendar.html
+index.html
 gregorian-calendar.html
 calendar-processor.js
 calendar-styles.css
