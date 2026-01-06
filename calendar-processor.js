@@ -195,15 +195,16 @@ class CalendarProcessor {
 
     let solarYear = gYear;
     let solarYearStartDate = this.getSolarYearStartDate(solarYear);
+    let sYearStartDate =  new Date(Date.UTC(solarYearStartDate.getFullYear(), solarYearStartDate.getMonth(), solarYearStartDate.getDate()));
 
     // Determine the correct Solar year context
-    if (!solarYearStartDate || gDateUTC < solarYearStartDate) {
+    if (!sYearStartDate || gDateUTC < sYearStartDate) {
         solarYear--;
-        solarYearStartDate = this.getSolarYearStartDate(solarYear);
-        if (!solarYearStartDate) return null;
+        sYearStartDate = this.getSolarYearStartDate(solarYear);
+        if (!sYearStartDate) return null;
     }
 
-    const diffTime = gDateUTC - solarYearStartDate;
+    const diffTime = gDateUTC - sYearStartDate;
     const daysSinceSolarYearStart = Math.floor(diffTime / (1000 * 60 * 60 * 24)); // 0-based
 
     const isLeap = this.isSolarLeapYear(solarYear);
