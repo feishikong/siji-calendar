@@ -30,6 +30,7 @@ class CalendarProcessor {
     this.dayNamesFull = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
     this.firstDayOfYear = {};
 
+    this.newMoonData = {}; // Populated by loadAstronomicalData
     this.vernalEquinoxData = {}; // Populated by loadAstronomicalData
     this.summerSolsticeData = {}; // Populated by loadAstronomicalData
     this.fallEquinoxData = {}; // Populated by loadAstronomicalData
@@ -95,6 +96,22 @@ class CalendarProcessor {
         }
         return acc;
       }, {});
+
+      const newMoon = await fetch('https://feishikong.github.io/moon-data/api/new-moon-data/');
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const newMoonData = await newMoon.json();
+      await Promise.all(
+        newMoonData.years.map( async (entry) => {
+          const newMoonDates = await fetch('https://feishikong.github.io/moon-data/api/new-moon-data/'+entry+'/');
+          if (!newMoonDates.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+          const newMoonDays = await newMoonDates.json();
+          this.newMoonData[entry] = newMoonDays;
+        })
+      );
       // Pre-calculate start dates after loading
       this.preCalculateYearStartDates();
 
@@ -314,8 +331,11 @@ class CalendarProcessor {
       vernalEquinox: vernalEquinoxDate,
       summerSolstice: summerSolsticeDate,
       autumnEquinox: fallEquinoxDate,
-      winterSolstice: winterSolsticeDate
+      winterSolstice: winterSolsticeDate,
     };
+    this.newMoonData[year].forEach((iso, index) => {
+        events[`newMoon${index}`] = new Date(iso);
+    });
     this.astronomicalEventCache[year] = events;
     return events;
   }
@@ -331,7 +351,13 @@ class CalendarProcessor {
         const eventDateStr = this.toISODateString(eventDate);
         if (dateStr === eventDateStr) {
             const icons = { vernalEquinox: '🌱', summerSolstice: '☀️', autumnEquinox: '🍂', winterSolstice: '❄️' };
+            this.newMoonData[year].forEach((iso, index) => {
+                icons[`newMoon${index}`] = '🌑';
+            });
             const classes = { vernalEquinox: 'vernal-equinox', summerSolstice: 'summer-solstice', autumnEquinox: 'autumn-equinox', winterSolstice: 'winter-solstice' };
+            this.newMoonData[year].forEach((iso, index) => {
+                classes[`newMoon${index}`] = 'new-moon';
+            });
             return { icon: icons[key], class: classes[key] };
         }
     }
