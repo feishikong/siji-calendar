@@ -152,8 +152,8 @@ class CalendarProcessor {
           return null; // Missing data
       }
 
+      const vernalEquinoxDate = new Date(vernalEquinoxStr);
       const vernalNewMoonStr = this.newMoonData[solarYear].map( (moon) => {
-          const vernalEquinoxDate = new Date(vernalEquinoxStr);
           const newMoonDate = new Date(moon)
           const diffTime = Math.abs(newMoonDate - vernalEquinoxDate);
           const diffDays = Math.round(diffTime / (1000 * 60 * 60 * 24));
@@ -161,11 +161,7 @@ class CalendarProcessor {
       }).filter( item => item.diffDays < 28)
           .reduce((previous, current) => current.diffDays < previous.diffDays ? current : previous).newMoonDate;
 
-      const equinoxDate = new Date(vernalNewMoonStr);
-
-      let daysToAdd = 0;
-      const startDate = new Date(equinoxDate);
-      startDate.setUTCDate(equinoxDate.getUTCDate() + daysToAdd);
+      const startDate = vernalEquinoxDate < vernalNewMoonStr ? vernalEquinoxDate : vernalNewMoonStr;
 
       this.solarYearStartDateCache[solarYear] = startDate;
       return startDate;
