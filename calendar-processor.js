@@ -172,7 +172,7 @@ class CalendarProcessor {
 
    /** Pre-calculate and cache start dates for the relevant range */
    preCalculateYearStartDates() {
-       for (let year = 2001; year <= 2100; year++) {
+       for (let year = 2001; year <= 2082; year++) {
            this.getSolarYearStartDate(year); // Calculate and cache
            this.firstDayOfYear[year] = this.getSolarYearStartDate(year).getUTCDay();
        }
