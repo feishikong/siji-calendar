@@ -146,11 +146,21 @@ class CalendarProcessor {
       const summerSolsticeStr = this.summerSolsticeData[solarYear];
       const fallEquinoxStr = this.fallEquinoxData[solarYear];
       const winterSolsticeStr = this.winterSolsticeData[solarYear];
+
       if (!vernalEquinoxStr) {
           return null; // Missing data
       }
 
-      const equinoxDate = new Date(vernalEquinoxStr);
+      const vernalNewMoonStr = this.newMoonData[solarYear].map( (moon) => {
+          const vernalEquinoxDate = new Date(vernalEquinoxStr);
+          const newMoonDate = new Date(moon)
+          const diffTime = Math.abs(newMoonDate - vernalEquinoxDate);
+          const diffDays = Math.round(diffTime / (1000 * 60 * 60 * 24));
+          return { newMoonDate, diffDays };
+      }).filter( item => item.diffDays < 28)
+          .reduce((previous, current) => current.diffDays < previous.diffDays ? current : previous).newMoonDate;
+
+      const equinoxDate = new Date(vernalNewMoonStr);
 
       let daysToAdd = 0;
       const startDate = new Date(equinoxDate);
