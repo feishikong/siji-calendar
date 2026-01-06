@@ -278,7 +278,7 @@
 
     document.addEventListener('DOMContentLoaded', async () => {
       initializeTheme();
-      await calendarProcessor.loadVernalEquinoxData();
+      await calendarProcessor.loadAstronomicalData();
       const dateToHighlight = handleURLParameters();
       const yearInput = document.getElementById('year-input');
       yearInput.value = selectedYear;

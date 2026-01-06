@@ -30,18 +30,18 @@ class CalendarProcessor {
     this.dayNamesFull = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
     this.firstDayOfYear = {};
 
-    this.vernalEquinoxData = {}; // Populated by loadVernalEquinoxData
-    this.summerSolsticeData = {}; // Populated by loadVernalEquinoxData
-    this.fallEquinoxData = {}; // Populated by loadVernalEquinoxData
-    this.winterSolsticeData = {}; // Populated by loadVernalEquinoxData
+    this.vernalEquinoxData = {}; // Populated by loadAstronomicalData
+    this.summerSolsticeData = {}; // Populated by loadAstronomicalData
+    this.fallEquinoxData = {}; // Populated by loadAstronomicalData
+    this.winterSolsticeData = {}; // Populated by loadAstronomicalData
     this.solarYearStartDateCache = {}; // Cache for Gregorian start date of each Solar year
     this.astronomicalEventCache = {}; // Cache for approximate astronomical event dates (Gregorian)
   }
 
   /**
-   * Load vernal equinox data from the JSON source. This defines the year's anchor point.
+   * Load astronomical data from the JSON source. This defines the year's anchor point.
    */
-  async loadVernalEquinoxData() {
+  async loadAstronomicalData() {
     try {
       const response = await fetch('astronomical-event_dates_2001_to_2100.json');
       if (!response.ok) {
