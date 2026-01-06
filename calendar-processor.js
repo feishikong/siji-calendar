@@ -85,6 +85,7 @@ class CalendarProcessor {
         }
         return acc;
       }, {});
+
       this.winterSolsticeData = data.reduce((acc, entry) => {
         const year = parseInt(entry.year, 10);
         if (year >= 2000 && year <= 2101) { // Need prev/next year data
