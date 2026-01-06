@@ -159,7 +159,6 @@
         const monthDiv = document.createElement('div');
         monthDiv.className = 'month'; monthDiv.id = `month-${monthIndex}`;
 
-        console.log(calendarProcessor.firstDayOfYear[selectedYear]);
         // Headers: Mon -> Sun
         for (let i = calendarProcessor.firstDayOfYear[selectedYear]; i <= calendarProcessor.firstDayOfYear[selectedYear] + 6; i++) {
             const dayIndex = i % 7;

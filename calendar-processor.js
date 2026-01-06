@@ -31,6 +31,9 @@ class CalendarProcessor {
     this.firstDayOfYear = {};
 
     this.vernalEquinoxData = {}; // Populated by loadVernalEquinoxData
+    this.summerSolsticeData = {}; // Populated by loadVernalEquinoxData
+    this.fallEquinoxData = {}; // Populated by loadVernalEquinoxData
+    this.winterSolsticeData = {}; // Populated by loadVernalEquinoxData
     this.solarYearStartDateCache = {}; // Cache for Gregorian start date of each Solar year
     this.astronomicalEventCache = {}; // Cache for approximate astronomical event dates (Gregorian)
   }
@@ -40,7 +43,7 @@ class CalendarProcessor {
    */
   async loadVernalEquinoxData() {
     try {
-      const response = await fetch('spring_equinox_dates_0001_to_2100.json');
+      const response = await fetch('astronomical-event_dates_2001_to_2100.json');
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -48,8 +51,43 @@ class CalendarProcessor {
 
       this.vernalEquinoxData = data.reduce((acc, entry) => {
         const year = parseInt(entry.year, 10);
-        if (year >= 1899 && year <= 2101) { // Need prev/next year data
-          const parts = entry.date.split('-');
+        if (year >= 2000 && year <= 2101) { // Need prev/next year data
+          const parts = entry.spring.split('-');
+          const yearStr = String(entry.year).padStart(4, '0');
+          const month = parts[1].padStart(2, '0');
+          const day = parts[2].padStart(2, '0');
+          acc[year] = `${yearStr}-${month}-${day}`;
+        }
+        return acc;
+      }, {});
+
+      this.summerSolsticeData = data.reduce((acc, entry) => {
+        const year = parseInt(entry.year, 10);
+        if (year >= 2000 && year <= 2101) { // Need prev/next year data
+          const parts = entry.summer.split('-');
+          const yearStr = String(entry.year).padStart(4, '0');
+          const month = parts[1].padStart(2, '0');
+          const day = parts[2].padStart(2, '0');
+          acc[year] = `${yearStr}-${month}-${day}`;
+        }
+        return acc;
+      }, {});
+
+      this.fallEquinoxData = data.reduce((acc, entry) => {
+        const year = parseInt(entry.year, 10);
+        if (year >= 2000 && year <= 2101) { // Need prev/next year data
+          const parts = entry.fall.split('-');
+          const yearStr = String(entry.year).padStart(4, '0');
+          const month = parts[1].padStart(2, '0');
+          const day = parts[2].padStart(2, '0');
+          acc[year] = `${yearStr}-${month}-${day}`;
+        }
+        return acc;
+      }, {});
+      this.winterSolsticeData = data.reduce((acc, entry) => {
+        const year = parseInt(entry.year, 10);
+        if (year >= 2000 && year <= 2101) { // Need prev/next year data
+          const parts = entry.winter.split('-');
           const yearStr = String(entry.year).padStart(4, '0');
           const month = parts[1].padStart(2, '0');
           const day = parts[2].padStart(2, '0');
@@ -88,21 +126,26 @@ class CalendarProcessor {
       }
 
       const vernalEquinoxStr = this.vernalEquinoxData[solarYear];
+      const summerSolsticeStr = this.summerSolsticeData[solarYear];
+      const fallEquinoxStr = this.fallEquinoxData[solarYear];
+      const winterSolsticeStr = this.winterSolsticeData[solarYear];
       if (!vernalEquinoxStr) {
           return null; // Missing data
       }
 
-      const equinoxDate = new Date(vernalEquinoxStr + 'T00:00:00Z');
+      const equinoxDate = new Date(vernalEquinoxStr);
 
       let daysToAdd = 0;
+      const startDate = new Date(equinoxDate);
+      startDate.setUTCDate(equinoxDate.getUTCDate() + daysToAdd);
 
-      this.solarYearStartDateCache[solarYear] = equinoxDate;
-      return equinoxDate;
+      this.solarYearStartDateCache[solarYear] = startDate;
+      return startDate;
   }
 
    /** Pre-calculate and cache start dates for the relevant range */
    preCalculateYearStartDates() {
-       for (let year = 1900; year <= 2100; year++) {
+       for (let year = 2001; year <= 2100; year++) {
            this.getSolarYearStartDate(year); // Calculate and cache
            this.firstDayOfYear[year] = this.getSolarYearStartDate(year).getUTCDay();
        }
@@ -258,13 +301,19 @@ class CalendarProcessor {
       return this.astronomicalEventCache[year];
     }
     const vernalEquinoxStr = this.vernalEquinoxData[year];
+    const summerSolsticeStr = this.summerSolsticeData[year];
+    const fallEquinoxStr = this.fallEquinoxData[year];
+    const winterSolsticeStr = this.winterSolsticeData[year];
     // Use approximation if exact data is missing
-    const vernalEquinoxDate = vernalEquinoxStr ? new Date(vernalEquinoxStr + 'T00:00:00Z') : new Date(Date.UTC(year, 2, 20));
+    const vernalEquinoxDate = vernalEquinoxStr ? new Date(vernalEquinoxStr) : new Date(Date.UTC(year, 2, 20));
+    const summerSolsticeDate = summerSolsticeStr ? new Date(summerSolsticeStr) : new Date(Date.UTC(year, 5, 21));
+    const fallEquinoxDate = fallEquinoxStr ? new Date(fallEquinoxStr) : new Date(Date.UTC(year, 8, 22));
+    const winterSolsticeDate = winterSolsticeStr ? new Date(winterSolsticeStr) : new Date(Date.UTC(year, 11, 21));
     const events = {
       vernalEquinox: vernalEquinoxDate,
-      summerSolstice: new Date(Date.UTC(year, 5, 21)),
-      autumnEquinox: new Date(Date.UTC(year, 8, 22)),
-      winterSolstice: new Date(Date.UTC(year, 11, 21))
+      summerSolstice: summerSolsticeDate,
+      autumnEquinox: fallEquinoxDate,
+      winterSolstice: winterSolsticeDate
     };
     this.astronomicalEventCache[year] = events;
     return events;
