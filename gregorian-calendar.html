@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Gregorian Calendar with Lunisolar Dates</title> <!-- Removed "Fixed" -->
+  <title>Gregorian Calendar with Solar Dates</title> <!-- Removed "Fixed" -->
   <link rel="stylesheet" href="calendar-styles.css">
   <style>
     /* Styles specific to Gregorian view showing Solar dates */
@@ -153,7 +153,7 @@
                   specialInfo.textContent = solarInfo.specialDay; dayDiv.appendChild(specialInfo);
               } else {
                   const solarDisp = document.createElement('div'); solarDisp.className = 'solar-info';
-                  solarDisp.innerHTML = `<div class="day-label">Shisan:</div><div class="day-solar"><span class="solar-month-name">${solarInfo.monthName}</span> <span class="solar-day-number">${solarInfo.day}</span></div>`;
+                  solarDisp.innerHTML = `<div class="day-label">Solar:</div><div class="day-solar"><span class="solar-month-name">${solarInfo.monthName}</span> <span class="solar-day-number">${solarInfo.day}</span></div>`;
                   dayDiv.appendChild(solarDisp);
               }
           }
