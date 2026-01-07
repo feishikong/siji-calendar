@@ -160,13 +160,24 @@
         monthDiv.className = 'month'; monthDiv.id = `month-${monthIndex}`;
 
         // Headers: Mon -> Sun
-        for (let i = calendarProcessor.firstDayOfYear[selectedYear]; i <= calendarProcessor.firstDayOfYear[selectedYear] + 6; i++) {
-            const dayIndex = i % 7;
+	     const firstDayOfWeek = Math.abs( calendarProcessor.firstDayOfYear[selectedYear] + 1);
+        for (let i = firstDayOfWeek; i <= firstDayOfWeek + 6; i++) {
+	    dayIndex = i % 7;
             const header = document.createElement('div'); header.className = 'header';
             header.textContent = calendarProcessor.dayNames[dayIndex]; monthDiv.appendChild(header);
         }
-        // 28 Day Cells
-        for (let dayOfMonth = 1; dayOfMonth <= 28; dayOfMonth++) {
+	      const leapYear = selectedYear + 1;
+	      const leapMonthDays = calendarProcessor.leapMonthDays[leapYear];
+	      if(monthIndex == 12){
+		      calendarProcessor.calendarStructure[monthIndex].days = leapMonthDays;
+	      }
+	      if(monthIndex == 0 ){
+		      for (let i = 0; i < 6; i++){
+			      const emptyDay = document.createElement('div'); emptyDay.className = 'day empty'; monthDiv.appendChild(emptyDay);
+		      }
+	      }
+        // Month Cells
+        for (let dayOfMonth = 1; dayOfMonth <= calendarProcessor.calendarStructure[monthIndex].days; dayOfMonth++) {
           const solarDayOfYear = month.startDay + dayOfMonth - 1;
           const gregorianDate = calendarProcessor.getGregorianDateForSolarDay(selectedYear, solarDayOfYear);
           const dayDiv = document.createElement('div'); dayDiv.className = 'day solar-day-cell'; // Renamed class slightly

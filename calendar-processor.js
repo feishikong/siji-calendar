@@ -8,22 +8,23 @@
 class CalendarProcessor {
   constructor() {
     // Current 13-month structure
+    this.leapMonthDays = {};
     this.calendarStructure = [
-      { name: 'Ichika', days: 28, startDay: 1 },
-      { name: 'Futaba', days: 28, startDay: 29 },
-      { name: 'Mikasa', days: 28, startDay: 57 },
-      { name: 'Yotsuba', days: 28, startDay: 85 },
-      { name: 'Itsuki', days: 28, startDay: 113 },
-      { name: 'Mutsumi', days: 28, startDay: 141 },
-      { name: 'Nanako', days: 28, startDay: 169 },
-      { name: 'Yabuki', days: 28, startDay: 197 },
-      { name: 'Kokoro', days: 28, startDay: 225 },
-      { name: 'Tobira', days: 28, startDay: 253 },
-      { name: 'Toichi', days: 28, startDay: 281 },
-      { name: 'Tofuro', days: 28, startDay: 309 },
-      { name: 'Tomita', days: 28, startDay: 337 } // Ends on day 364
+      { name: 'Ichika', days: 29, startDay: 1 },
+      { name: 'Futaba', days: 28, startDay: 30 },
+      { name: 'Mikasa', days: 28, startDay: 58 },
+      { name: 'Yotsuba', days: 28, startDay: 86 },
+      { name: 'Itsuki', days: 28, startDay: 114 },
+      { name: 'Mutsumi', days: 28, startDay: 142 },
+      { name: 'Nanako', days: 28, startDay: 170 },
+      { name: 'Yabuki', days: 28, startDay: 198 },
+      { name: 'Kokoro', days: 28, startDay: 226 },
+      { name: 'Tobira', days: 28, startDay: 254 },
+      { name: 'Toichi', days: 28, startDay: 282 },
+      { name: 'Tofuro', days: 28, startDay: 310 },
+      { name: 'Tomita', days: 28, startDay: 338 } // Ends on day 365
     ];
-    this.totalDaysInMonths = 364;
+    this.totalDaysInMonths = 365;
 
     this.gregorianMonths = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
     this.dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
@@ -148,6 +149,7 @@ class CalendarProcessor {
       if (!vernalEquinoxStr) {
           return null; // Missing data
       }
+      this.leapMonthDays[solarYear] = new Date(solarYear, 2, 0).getDate();
 
       const vernalEquinoxDate = new Date(vernalEquinoxStr);
       this.fullMoonData[solarYear] = this.newMoonData[solarYear].map( (moon) => {
@@ -196,7 +198,7 @@ class CalendarProcessor {
     const startDate = this.getSolarYearStartDate(solarYear);
     if (!startDate) return null;
 
-    if (solarDayOfYear < 1 || solarDayOfYear > (this.isSolarLeapYear(solarYear) ? 366 : 365)) {
+    if (solarDayOfYear < 1) {
         return null; // Invalid day number
     }
 
