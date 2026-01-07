@@ -36,6 +36,7 @@ class CalendarProcessor {
     this.fallEquinoxData = {}; // Populated by loadAstronomicalData
     this.winterSolsticeData = {}; // Populated by loadAstronomicalData
     this.solarYearStartDateCache = {}; // Cache for Gregorian start date of each Solar year
+    this.fullMoonData = {};
     this.astronomicalEventCache = {}; // Cache for approximate astronomical event dates (Gregorian)
   }
 
@@ -144,24 +145,19 @@ class CalendarProcessor {
       }
 
       const vernalEquinoxStr = this.vernalEquinoxData[solarYear];
-      const summerSolsticeStr = this.summerSolsticeData[solarYear];
-      const fallEquinoxStr = this.fallEquinoxData[solarYear];
-      const winterSolsticeStr = this.winterSolsticeData[solarYear];
 
       if (!vernalEquinoxStr) {
           return null; // Missing data
       }
 
       const vernalEquinoxDate = new Date(vernalEquinoxStr);
-      const vernalNewMoonStr = this.newMoonData[solarYear].map( (moon) => {
-          const newMoonDate = new Date(moon)
-          const diffTime = Math.abs(newMoonDate - vernalEquinoxDate);
-          const diffDays = Math.round(diffTime / (1000 * 60 * 60 * 24));
-          return { newMoonDate, diffDays };
-      }).filter( item => item.diffDays < 28)
-          .reduce((previous, current) => current.diffDays < previous.diffDays ? current : previous).newMoonDate;
+      this.fullMoonData[solarYear] = this.newMoonData[solarYear].map( (moon) => {
+          const newMoonDate = new Date(moon);
+          newMoonDate.setUTCDate( newMoonDate.getUTCDate() + 14);
+          return newMoonDate;
+      });
 
-      const startDate = vernalEquinoxDate < vernalNewMoonStr ? vernalEquinoxDate : vernalNewMoonStr;
+      const startDate = vernalEquinoxDate;
 
       this.solarYearStartDateCache[solarYear] = startDate;
       return startDate;
@@ -343,6 +339,9 @@ class CalendarProcessor {
     this.newMoonData[year].forEach((iso, index) => {
         events[`newMoon${index}`] = new Date(iso);
     });
+    this.fullMoonData[year].forEach((iso, index) => {
+        events[`fullMoon${index}`] = new Date(iso);
+    });
     this.astronomicalEventCache[year] = events;
     return events;
   }
@@ -361,9 +360,15 @@ class CalendarProcessor {
             this.newMoonData[year].forEach((iso, index) => {
                 icons[`newMoon${index}`] = '🌑';
             });
+            this.fullMoonData[year].forEach((iso, index) => {
+                icons[`fullMoon${index}`] = '🌕';
+            });
             const classes = { vernalEquinox: 'vernal-equinox', summerSolstice: 'summer-solstice', autumnEquinox: 'autumn-equinox', winterSolstice: 'winter-solstice' };
             this.newMoonData[year].forEach((iso, index) => {
                 classes[`newMoon${index}`] = 'new-moon';
+            });
+            this.fullMoonData[year].forEach((iso, index) => {
+                classes[`fullMoon${index}`] = 'new-moon';
             });
             return { icon: icons[key], class: classes[key] };
         }
