@@ -77,11 +77,6 @@
     </div>
 
     <!-- Section to display Year Day / Leap Day -->
-    <div class="year-extra-days" id="year-extra-days">
-        <h3>Year End Days</h3>
-        <span id="year-day-info"></span>
-        <span id="leap-day-info"></span>
-    </div>
 
     <div class="astronomical-events" id="astronomical-events"></div>
 
@@ -122,22 +117,6 @@
         if (!eventDate || isNaN(eventDate.getTime())) return;
         const eventDateStr = calendarProcessor.toISODateString(eventDate);
         window.location.href = `gregorian-calendar.html?date=${eventDateStr}&year=${selectedYear}`;
-    }
-
-    function displayExtraDays() {
-        if (!selectedYear) return;
-        const isLeap = calendarProcessor.isSolarLeapYear(selectedYear);
-        const yearDayGregorian = calendarProcessor.getGregorianDateForSolarDay(selectedYear, 365);
-        const yearDayInfoEl = document.getElementById('year-day-info');
-        yearDayInfoEl.textContent = yearDayGregorian ? `Year Day: ${formatGregorianDateForDisplay(yearDayGregorian).month} ${formatGregorianDateForDisplay(yearDayGregorian).day}` : 'Year Day: (Error)';
-        const leapDayInfoEl = document.getElementById('leap-day-info');
-        if (isLeap) {
-            const leapDayGregorian = calendarProcessor.getGregorianDateForSolarDay(selectedYear, 366);
-            leapDayInfoEl.textContent = leapDayGregorian ? ` | Leap Day: ${formatGregorianDateForDisplay(leapDayGregorian).month} ${formatGregorianDateForDisplay(leapDayGregorian).day}` : ' | Leap Day: (Error)';
-            leapDayInfoEl.style.display = 'inline';
-        } else {
-            leapDayInfoEl.style.display = 'none';
-        }
     }
 
     function formatGregorianDateForDisplay(date) {
@@ -224,7 +203,6 @@
       const indicator = document.getElementById('current-month-indicator');
       indicator.innerHTML = `<span class="month-title-main">${titleData.main}</span><span class="month-title-sub">${titleData.sub}</span>`;
       displayAstronomicalEvents();
-      displayExtraDays();
     }
 
     function navigateMonth(direction) {
