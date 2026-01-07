@@ -185,7 +185,9 @@
             const gregorianDateStr = calendarProcessor.toISODateString(gregorianDate);
             dayDiv.setAttribute('data-gregorian-date', gregorianDateStr);
             if (gregorianDateStr === todayStr) dayDiv.classList.add('today');
-            const astroEvent = calendarProcessor.checkAstronomicalEvent(gregorianDate, selectedYear);
+            let astroEvent = "";
+            if (monthIndex > 10 && gregorianDate.getMonth() < 3)  astroEvent = calendarProcessor.checkAstronomicalEvent(gregorianDate, selectedYear+1);
+            else astroEvent = calendarProcessor.checkAstronomicalEvent(gregorianDate, selectedYear);
             if (astroEvent) {
               dayDiv.classList.add(astroEvent.class);
               const badge = document.createElement('div'); badge.className = 'astro-badge';
