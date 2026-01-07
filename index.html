@@ -177,7 +177,8 @@
 		      }
 	      }
         // Month Cells
-        for (let dayOfMonth = 1; dayOfMonth <= calendarProcessor.calendarStructure[monthIndex].days; dayOfMonth++) {
+        for (let dayOfMonth = 0; dayOfMonth <= calendarProcessor.calendarStructure[monthIndex].days; dayOfMonth++) {
+	  if(monthIndex > 0 && dayOfMonth == 0) dayOfMonth++;
           const solarDayOfYear = month.startDay + dayOfMonth - 1;
           const gregorianDate = calendarProcessor.getGregorianDateForSolarDay(selectedYear, solarDayOfYear);
           const dayDiv = document.createElement('div'); dayDiv.className = 'day solar-day-cell'; // Renamed class slightly
@@ -194,7 +195,10 @@
               badge.textContent = astroEvent.icon; dayDiv.appendChild(badge);
             }
             const dayNumber = document.createElement('div'); dayNumber.className = 'day-number';
-            dayNumber.textContent = dayOfMonth; dayDiv.appendChild(dayNumber);
+            if(dayOfMonth == 0) dayNumber.textContent = "Equinox Day";
+            else if(dayOfMonth == 29) dayNumber.textContent = "Leap Day";
+	    else dayNumber.textContent = dayOfMonth;
+	    dayDiv.appendChild(dayNumber);
             const { month: gMonth, day: gDay } = formatGregorianDateForDisplay(gregorianDate);
             const gregorianInfo = document.createElement('div'); gregorianInfo.className = 'gregorian-date';
             gregorianInfo.innerHTML = `${gMonth.substring(0,3)} ${gDay}`; dayDiv.appendChild(gregorianInfo);
