@@ -246,8 +246,13 @@
       document.getElementById('year-input').value = selectedYear;
       let monthToSet = 0;
       let dateToHighlight = null;
-      if (targetDate) {
-         const dateParts = targetDate.split('-');
+      if (targetMonth) {
+        const monthIndex = parseInt(targetMonth);
+        if (monthIndex >= 0 && monthIndex < 13) monthToSet = monthIndex;
+      } else  {
+         const today = new Date();
+         const todayStr = targetDate ? targetDate : calendarProcessor.toISODateString(new Date(Date.UTC(today.getFullYear(), today.getMonth(), today.getDate())));
+         const dateParts = todayStr.split('-');
          if (dateParts.length === 3) {
              const year = parseInt(dateParts[0]); const month = parseInt(dateParts[1]) - 1; const day = parseInt(dateParts[2]);
              const gDate = new Date(Date.UTC(year, month, day));
@@ -258,15 +263,12 @@
                  const solarInfo = calendarProcessor.getSolarDateFromGregorian(gDate, potentialSolarYear);
                  if (solarInfo && solarInfo.monthIndex >= 0) {
                      if (solarInfo.year !== selectedYear) { selectedYear = solarInfo.year; document.getElementById('year-input').value = selectedYear; }
-                     monthToSet = solarInfo.monthIndex; dateToHighlight = targetDate;
+                     monthToSet = solarInfo.monthIndex; dateToHighlight = todayStr;
                  } else if (solarInfo && solarInfo.specialDay) {
-                      monthToSet = 12; dateToHighlight = targetDate;
+                      monthToSet = 12; dateToHighlight = todayStr;
                  }
              }
          }
-      } else if (targetMonth !== null) {
-        const monthIndex = parseInt(targetMonth);
-        if (monthIndex >= 0 && monthIndex < 13) monthToSet = monthIndex;
       }
       currentMonth = monthToSet;
       return dateToHighlight;
