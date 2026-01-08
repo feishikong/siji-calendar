@@ -132,22 +132,19 @@
       const today = new Date();
       const todayStr = calendarProcessor.toISODateString(new Date(Date.UTC(today.getFullYear(), today.getMonth(), today.getDate())));
 
+      calendarProcessor.isSolarLeapYear(selectedYear);
       calendarProcessor.calendarStructure.forEach((month, monthIndex) => { // Use calendarStructure
         const monthDiv = document.createElement('div');
         monthDiv.className = 'month'; monthDiv.id = `month-${monthIndex}`;
 
         // Headers: Mon -> Sun
 	     const firstDayOfWeek = Math.abs( calendarProcessor.firstDayOfYear[selectedYear] + 1);
+	     calendarProcessor.calendarStructure[12].days = calendarProcessor.isSolarLeapYear(selectedYear) ? 29 : 28;
         for (let i = firstDayOfWeek; i <= firstDayOfWeek + 6; i++) {
             dayIndex = i % 7;
             const header = document.createElement('div'); header.className = 'header';
             header.textContent = calendarProcessor.dayNames[dayIndex]; monthDiv.appendChild(header);
         }
-	      const leapYear = selectedYear + 1;
-	      const leapMonthDays = calendarProcessor.leapMonthDays[leapYear];
-	      if(monthIndex == 12){
-		      calendarProcessor.calendarStructure[monthIndex].days = leapMonthDays;
-	      }
 	      if(monthIndex == 0 ){
 		      for (let i = 0; i < 6; i++){
 			      const emptyDay = document.createElement('div'); emptyDay.className = 'day empty'; monthDiv.appendChild(emptyDay);

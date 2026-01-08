@@ -8,7 +8,6 @@
 class CalendarProcessor {
   constructor() {
     // Current 13-month structure
-    this.leapMonthDays = {};
     this.calendarStructure = [
       { name: 'Ichika', days: 28, startDay: 1 },
       { name: 'Futaba', days: 28, startDay: 29 },
@@ -24,7 +23,6 @@ class CalendarProcessor {
       { name: 'Tofuro', days: 28, startDay: 309 },
       { name: 'Tomita', days: 28, startDay: 337 } // Ends on day 365
     ];
-    this.totalDaysInMonths = 365;
 
     this.gregorianMonths = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
     this.dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
@@ -148,7 +146,6 @@ class CalendarProcessor {
       if (!vernalEquinoxStr) {
           return null; // Missing data
       }
-      this.leapMonthDays[solarYear] = new Date(solarYear, 2, 0).getDate();
 
       const vernalEquinoxDate = new Date(vernalEquinoxStr);
 
@@ -172,18 +169,17 @@ class CalendarProcessor {
    */
   isSolarLeapYear(solarYear) {
     const startDate = this.getSolarYearStartDate(solarYear);
+    const endDate = this.getGregorianDateForSolarDay(solarYear, 365);
     const nextStartDate = this.getSolarYearStartDate(solarYear + 1);
 
     if (!startDate || !nextStartDate) {
       // Fallback approximation if data is missing
-      const veYear = parseInt(this.vernalEquinoxData[solarYear]?.substring(0, 4) || solarYear);
-      return (veYear % 4 === 0 && veYear % 100 !== 0) || (veYear % 400 === 0);
+      const leapMonthDays = new Date(solarYear, 2, 0).getDate();
+      return leapMonthDays === 29;
     }
 
-    const diffTime = Math.abs(nextStartDate - startDate);
-    const diffDays = Math.round(diffTime / (1000 * 60 * 60 * 24));
-
-    return diffDays === 366;
+    const diffDays = nextStartDate.getUTCDate() - endDate.getUTCDate();
+    return diffDays === 2;
   }
 
   /**
@@ -222,20 +218,6 @@ class CalendarProcessor {
 
     const diffTime = gDateUTC - sYearStartDate;
     const daysSinceSolarYearStart = Math.floor(diffTime / (1000 * 60 * 60 * 24)); // 0-based
-
-    const isLeap = this.isSolarLeapYear(solarYear);
-
-    // Check for Year Day or Leap Day
-    if (daysSinceSolarYearStart === 364) {
-        return { monthIndex: -1, day: 1, year: solarYear, specialDay: 'Year Day', monthName: 'Year Day', monthNumber: null };
-    } else if (isLeap && daysSinceSolarYearStart === 365) {
-        return { monthIndex: -1, day: 2, year: solarYear, specialDay: 'Leap Day', monthName: 'Leap Day', monthNumber: null };
-    } else if (daysSinceSolarYearStart >= (isLeap ? 366 : 365)) {
-         // Date belongs to the subsequent Solar year
-         return this.getSolarDateFromGregorian(gregorianDate, solarYear + 1);
-    } else if (daysSinceSolarYearStart < 0) {
-        return null; // Calculation error
-    }
 
     // Regular day within the 13 months
     const monthIndex = Math.floor(daysSinceSolarYearStart / 28);
