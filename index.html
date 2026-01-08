@@ -76,8 +76,6 @@
       </button>
     </div>
 
-    <!-- Section to display Year Day / Leap Day -->
-
     <div class="astronomical-events" id="astronomical-events"></div>
 
     <div id="calendar-container">
@@ -141,7 +139,7 @@
         // Headers: Mon -> Sun
 	     const firstDayOfWeek = Math.abs( calendarProcessor.firstDayOfYear[selectedYear] + 1);
         for (let i = firstDayOfWeek; i <= firstDayOfWeek + 6; i++) {
-	    dayIndex = i % 7;
+            dayIndex = i % 7;
             const header = document.createElement('div'); header.className = 'header';
             header.textContent = calendarProcessor.dayNames[dayIndex]; monthDiv.appendChild(header);
         }
