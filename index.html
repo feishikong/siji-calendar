@@ -251,6 +251,8 @@
       if (targetMonth) {
         const monthIndex = parseInt(targetMonth);
         if (monthIndex >= 0 && monthIndex < 13) monthToSet = monthIndex;
+      } else if(targetYear) {
+	      return dateToHighlight;
       } else  {
          const today = new Date();
          const todayStr = targetDate ? targetDate : calendarProcessor.toISODateString(new Date(Date.UTC(today.getFullYear(), today.getMonth(), today.getDate())));
