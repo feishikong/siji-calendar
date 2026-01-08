@@ -36,7 +36,7 @@
       <div class="controls">
         <div class="control-group">
           <label for="year-input">Year:</label>
-          <input type="number" id="year-input" min="1900" max="2100" />
+          <input type="number" id="year-input" min="2001" max="2082" />
         </div>
         <button class="theme-toggle" onclick="toggleTheme()">
           <span id="theme-icon">🌙</span>
@@ -177,19 +177,19 @@
     function navigateMonth(direction) {
         if (!selectedYear) return;
         let newMonth = currentMonth + direction;
-        if (newMonth < 0) { selectedYear--; if (selectedYear < 1900) selectedYear = 1900; newMonth = 11; document.getElementById('year-input').value = selectedYear; generateCalendar(); }
-        else if (newMonth >= 12) { selectedYear++; if (selectedYear > 2100) selectedYear = 2100; newMonth = 0; document.getElementById('year-input').value = selectedYear; generateCalendar(); }
+        if (newMonth < 0) { selectedYear--; if (selectedYear < 2001) selectedYear = 2001; newMonth = 11; document.getElementById('year-input').value = selectedYear; generateCalendar(); }
+        else if (newMonth >= 12) { selectedYear++; if (selectedYear > 2082) selectedYear = 2082; newMonth = 0; document.getElementById('year-input').value = selectedYear; generateCalendar(); }
         currentMonth = newMonth; updateDisplay();
     }
     function navigateYear(direction) {
         if (!selectedYear) return;
         const yearInput = document.getElementById('year-input'); let newYear = selectedYear + direction;
-        if (newYear < 1900) newYear = 1900; if (newYear > 2100) newYear = 2100;
+        if (newYear < 2001) newYear = 2001; if (newYear > 2082) newYear = 2082;
         yearInput.value = newYear; updateYear();
     }
     function updateYear() {
         const yearInput = document.getElementById('year-input'); let newYear = parseInt(yearInput.value);
-        if (isNaN(newYear) || newYear < 1900) newYear = 1900; else if (newYear > 2100) newYear = 2100;
+        if (isNaN(newYear) || newYear < 2001) newYear = 2001; else if (newYear > 2082) newYear = 2082;
         yearInput.value = newYear;
         if (selectedYear !== newYear) { selectedYear = newYear; generateCalendar(); updateDisplay(); }
     }
@@ -204,7 +204,7 @@
         const urlParams = new URLSearchParams(window.location.search);
         const targetDate = urlParams.get('date'); const targetMonth = urlParams.get('month'); const targetYear = urlParams.get('year');
         let yearToSet = new Date().getFullYear();
-        if (targetYear) { let year = parseInt(targetYear); if (year >= 1900 && year <= 2100) yearToSet = year; }
+        if (targetYear) { let year = parseInt(targetYear); if (year >= 2001 && year <= 2082) yearToSet = year; }
         selectedYear = yearToSet;
         document.getElementById('year-input').value = selectedYear;
         let monthToSet = new Date().getMonth();
