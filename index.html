@@ -166,7 +166,7 @@
             dayDiv.setAttribute('data-gregorian-date', gregorianDateStr);
             if (gregorianDateStr === todayStr) dayDiv.classList.add('today');
             let astroEvent = "";
-            if (monthIndex > 10 && gregorianDate.getMonth() < 3)  astroEvent = calendarProcessor.checkAstronomicalEvent(gregorianDate, selectedYear+1);
+            if (monthIndex >= 10 && gregorianDate.getMonth() < 3) astroEvent = calendarProcessor.checkAstronomicalEvent(gregorianDate, selectedYear + 1);
             else astroEvent = calendarProcessor.checkAstronomicalEvent(gregorianDate, selectedYear);
             if (astroEvent) {
               dayDiv.classList.add(astroEvent.class);
