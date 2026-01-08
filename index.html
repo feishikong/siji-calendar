@@ -138,7 +138,7 @@
         monthDiv.className = 'month'; monthDiv.id = `month-${monthIndex}`;
 
         // Headers: Mon -> Sun
-	     const firstDayOfWeek = Math.abs( calendarProcessor.firstDayOfYear[selectedYear] + 1);
+	     const firstDayOfWeek = calendarProcessor.firstDayOfYear[selectedYear];
 	     calendarProcessor.calendarStructure[12].days = calendarProcessor.isSolarLeapYear(selectedYear) ? 29 : 28;
         for (let i = firstDayOfWeek; i <= firstDayOfWeek + 6; i++) {
             dayIndex = i % 7;
