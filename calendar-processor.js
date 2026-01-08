@@ -357,20 +357,19 @@ class CalendarProcessor {
   checkAstronomicalEvent(date, year) {
     const events = this.getAstronomicalEvents(year);
     const dateStr = this.toISODateString(date);
+    const moonAge = this.getLunarDay(year, date);
+    const lunarEvents = [ 0, 7, 14, 21];
+    const lunarBadges = { 0: '🌑', 7: '🌒', 14: '🌕', 21: '🌘'};
     for (const [key, eventDate] of Object.entries(events)) {
         if (!eventDate || isNaN(eventDate.getTime())) continue;
         const eventDateStr = this.toISODateString(eventDate);
         if (dateStr === eventDateStr) {
             const icons = { vernalEquinox: '🌱', summerSolstice: '☀️', autumnEquinox: '🍂', winterSolstice: '❄️' };
-            this.newMoonData[year].forEach((iso, index) => {
-                icons[`newMoon${index}`] = '🌑';
-            });
             const classes = { vernalEquinox: 'vernal-equinox', summerSolstice: 'summer-solstice', autumnEquinox: 'autumn-equinox', winterSolstice: 'winter-solstice' };
-            this.newMoonData[year].forEach((iso, index) => {
-                classes[`newMoon${index}`] = 'new-moon';
-            });
             return { icon: icons[key], class: classes[key] };
-        }
+        } else if (lunarEvents.includes(moonAge)) {
+                return { icon: lunarBadges[moonAge], class: 'new-moon' };
+	}
     }
     return null;
   }
