@@ -173,11 +173,15 @@
               const badge = document.createElement('div'); badge.className = 'astro-badge';
               badge.textContent = astroEvent.icon; dayDiv.appendChild(badge);
             }
+            if (monthIndex >= 10 && gregorianDate.getMonth() < 3) lunarDay = calendarProcessor.getLunarDay(selectedYear+1, gregorianDate);
+            else lunarDay = calendarProcessor.getLunarDay(selectedYear, gregorianDate);
             const dayNumber = document.createElement('div'); dayNumber.className = 'day-number';
             if(dayOfMonth == 0) dayNumber.textContent = "Equinox Day";
             else if(dayOfMonth == 29) dayNumber.textContent = "Leap Day";
-	    else dayNumber.textContent = dayOfMonth;
+	    else dayNumber.textContent = `${dayOfMonth}:${lunarDay}`;
 	    dayDiv.appendChild(dayNumber);
+
+
             const { month: gMonth, day: gDay } = formatGregorianDateForDisplay(gregorianDate);
             const gregorianInfo = document.createElement('div'); gregorianInfo.className = 'gregorian-date';
             gregorianInfo.innerHTML = `${gMonth.substring(0,3)} ${gDay}`; dayDiv.appendChild(gregorianInfo);
