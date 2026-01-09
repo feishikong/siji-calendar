@@ -202,32 +202,37 @@ class CalendarProcessor {
    * Get Solar date information { monthIndex, day, year, specialDay? } from a Gregorian date.
    */
   getSolarDateFromGregorian(gregorianDate) {
-    const gDateUTC = new Date(Date.UTC(gregorianDate.getFullYear(), gregorianDate.getMonth(), gregorianDate.getDate()));
+    const gDateUTC = new Date(Date.UTC(gregorianDate.getUTCFullYear(), gregorianDate.getUTCMonth(), gregorianDate.getUTCDate()));
     const gYear = gregorianDate.getFullYear();
 
     let solarYear = gYear;
     let solarYearStartDate = this.getSolarYearStartDate(solarYear);
-    let sYearStartDate =  new Date(Date.UTC(solarYearStartDate.getFullYear(), solarYearStartDate.getMonth(), solarYearStartDate.getDate()));
+    let sYearStartDate =  new Date(Date.UTC(solarYearStartDate.getUTCFullYear(), solarYearStartDate.getUTCMonth(), solarYearStartDate.getUTCDate()));
 
     // Determine the correct Solar year context
     if (!sYearStartDate || gDateUTC < sYearStartDate) {
         solarYear--;
-        sYearStartDate = this.getSolarYearStartDate(solarYear);
+        solarYearStartDate = this.getSolarYearStartDate(solarYear);
+        sYearStartDate =  new Date(Date.UTC(solarYearStartDate.getUTCFullYear(), solarYearStartDate.getUTCMonth(), solarYearStartDate.getUTCDate()));
         if (!sYearStartDate) return null;
     }
 
     const diffTime = gDateUTC - sYearStartDate;
-    const daysSinceSolarYearStart = Math.floor(diffTime / (1000 * 60 * 60 * 24)) + 1;
+    const daysSinceSolarYearStart = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+
 
     // Regular day within the 13 months
     const monthIndex = Math.floor(daysSinceSolarYearStart / 28);
     const dayOfMonth = (daysSinceSolarYearStart % 28) + 1;
 
+    const isLeap = this.isSolarLeapYear(solarYear);
+    const month = this.calendarStructure[monthIndex];
     if (monthIndex < 0 || monthIndex >= this.calendarStructure.length) {
-         return null; // Index out of bounds
+	 if(monthIndex > 13) return null; // Index out of bounds
+	 if(daysSinceSolarYearStart === 364 && isLeap) return { monthIndex: 12, day: 0, year: solarYear, specialDay: "Leap Day", monthNumber: 12 }
+	 else return { monthIndex: 0, day: 0, year: solarYear + 1, specialDay: "Equinox Day", monthNumber: 1 }
     }
 
-    const month = this.calendarStructure[monthIndex];
     return {
       monthIndex: monthIndex,
       month: month,
