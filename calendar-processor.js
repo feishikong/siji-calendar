@@ -217,11 +217,11 @@ class CalendarProcessor {
     }
 
     const diffTime = gDateUTC - sYearStartDate;
-    const daysSinceSolarYearStart = Math.floor(diffTime / (1000 * 60 * 60 * 24)); // 0-based
+    const daysSinceSolarYearStart = Math.floor(diffTime / (1000 * 60 * 60 * 24)) + 1;
 
     // Regular day within the 13 months
     const monthIndex = Math.floor(daysSinceSolarYearStart / 28);
-    const dayOfMonth = (daysSinceSolarYearStart % 28) + 1; // 1-based
+    const dayOfMonth = (daysSinceSolarYearStart % 28) + 1;
 
     if (monthIndex < 0 || monthIndex >= this.calendarStructure.length) {
          return null; // Index out of bounds

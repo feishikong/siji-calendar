@@ -248,7 +248,7 @@
       if (targetMonth) {
         const monthIndex = parseInt(targetMonth);
         if (monthIndex >= 0 && monthIndex < 13) monthToSet = monthIndex;
-      } else if(targetYear) {
+      } else if(targetYear && targetDate === null) {
 	      return dateToHighlight;
       } else  {
          const today = new Date();
