@@ -326,7 +326,7 @@ class CalendarProcessor {
 		  const today = new Date(Date.UTC(gregorianDate.getUTCFullYear(), gregorianDate.getUTCMonth(), gregorianDate.getUTCDate(), newMoonDay.getUTCHours(), newMoonDay.getUTCMinutes(), newMoonDay.getUTCSeconds(), newMoonDay.getUTCMilliseconds()));
 		  return newMoonDay <= today;
 	  }).reduce((latest, date) => (latest === null || date > latest ? date: latest), null);
-	  if (newMoonDate == null) newMoonDate = new Date(this.newMoonData[year-1][11]);
+	  if (newMoonDate == null) newMoonDate = new Date(this.newMoonData[year-1].at(-1));
 	  const today = new Date(Date.UTC(gregorianDate.getUTCFullYear(), gregorianDate.getUTCMonth(), gregorianDate.getUTCDate(), newMoonDate.getUTCHours(), newMoonDate.getUTCMinutes(), newMoonDate.getUTCSeconds(), newMoonDate.getUTCMilliseconds()));
 	  const moonAgeTime = Math.abs(today - newMoonDate)
 	  const moonAge = Math.round(moonAgeTime / ( 1000 * 60 * 60 * 24))
