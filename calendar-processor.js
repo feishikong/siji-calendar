@@ -345,13 +345,17 @@ class CalendarProcessor {
     for (const [key, eventDate] of Object.entries(events)) {
         if (!eventDate || isNaN(eventDate.getTime())) continue;
         const eventDateStr = this.toISODateString(eventDate);
+        let badgeKey = key
         if (dateStr === eventDateStr) {
             const icons = { vernalEquinox: '🌱', summerSolstice: '☀️', autumnEquinox: '🍂', winterSolstice: '❄️' };
-            const classes = { vernalEquinox: 'vernal-equinox', summerSolstice: 'summer-solstice', autumnEquinox: 'autumn-equinox', winterSolstice: 'winter-solstice' };
-            return { icon: icons[key], class: classes[key] };
-        } else if (lunarEvents.includes(moonAge)) {
-                return { icon: lunarBadges[moonAge], class: 'new-moon' };
-	}
+            const classes = { vernalEquinox: 'vernal-equinox', summerSolstice: 'summer-solstice', autumnEquinox: 'autumn-equinox', winterSolstice: 'winter-solstice', newMoon: 'new-moon' };
+            if(key.substring(0, 7) == 'newMoon') badgeKey = 'newMoon';
+            const badgeIcon = lunarEvents.includes(moonAge) ? lunarBadges[moonAge] : icons[key];
+            return { icon: badgeIcon, class: classes[badgeKey] };
+        }
+    }
+    if (lunarEvents.includes(moonAge)) {
+        return { icon: lunarBadges[moonAge], class: 'new-moon' };
     }
     return null;
   }
