@@ -1,7 +1,7 @@
 # Solar & Gregorian Calendar System
 
 ## Overview
-A comprehensive dual-calendar system displaying both Solar (Persian) and Gregorian calendars with full astronomical event tracking and cross-calendar linking.
+A comprehensive dual-calendar system displaying both Solar (13 month Spring Equinox aligned) and Gregorian calendars with full astronomical event tracking and cross-calendar linking.
 
 ## Files
 
@@ -20,23 +20,20 @@ A comprehensive dual-calendar system displaying both Solar (Persian) and Gregori
 ### Solar Calendar Display Format
 Each month shows:
 ```
-First Month / March-April
-Farvardin / 1/12
+Ichika
+Gregorian: March-April
 ```
-- **English Name**: First Month, Second Month, etc. (ordinal position)
+- **Solar Month**: Names derived from Japanese Numerals
 - **Gregorian Months**: Corresponding Gregorian months that overlap
-- **Persian Name**: Traditional Persian month name (Farvardin, Ordibehesht, etc.)
-- **Month Number**: Position in solar year (1/12, 2/12, etc.)
 
 ### Gregorian Calendar Display Format
 Each month shows:
 ```
-March / Farvardin-Ordibehesht
-Solar Months: 1-2/12
+March
+Solar: Tomita-Ichika
 ```
 - **Gregorian Month**: Standard month name
-- **Solar Months**: Corresponding Persian month names
-- **Solar Numbers**: Position numbers of the solar months
+- **Solar Months**: Corresponding Solar month names
 
 ### Astronomical Events
 Both calendars display:
@@ -44,6 +41,10 @@ Both calendars display:
 - ☀️ **Summer Solstice** (June 21) - Longest day
 - 🍂 **Autumn Equinox** (September 22) - Fall begins
 - ❄️ **Winter Solstice** (December 21) - Shortest day
+- 🌑**New Moon**
+- 🌒**First Quarter** (7 days after New Moon)
+- 🌕**Full Moon** (14 days after New Moon)
+- 🌘**Last Quarter** (21 days after New Moon)
 
 Features:
 - Clickable event cards with hover tooltips
@@ -52,13 +53,13 @@ Features:
 - Direct navigation to event dates
 
 ### Cross-Calendar Linking
-- **Click month headings** to jump to the corresponding month in the other calendar
+- **Click month headings** to jump to the corresponding month in the other calendar (TODO)
 - **Click any day** in one calendar to view it in the other calendar
 - URL parameters enable deep linking between calendars
 - Smooth animations and highlighting
 - Bidirectional navigation maintains year context
 
-**Month Heading Links:**
+**Month Heading Links:**(TODO)
 - Solar calendar month → Opens first corresponding Gregorian month
 - Gregorian calendar month → Opens first corresponding Solar month
 
@@ -66,31 +67,41 @@ Features:
 - Solar calendar day → Opens exact date in Gregorian calendar
 - Gregorian calendar day → Opens exact date in Solar calendar
 
+### Calendar Name Origin
+The name of the calendar is derived from Chinese numeral based on the fact that it has 13 months
+
+**Shisan** - Shísān 10 + 3
+
 ### Month Name Origins
 
-The Persian month names come from the **Solar Hijri calendar** (Zoroastrian tradition):
+The Solar month names are derived from Japanese numerals:
 
-1. **Farvardin** - Guardian spirits
-2. **Ordibehesht** - Best righteousness
-3. **Khordad** - Perfection
-4. **Tir** - Rain/water deity
-5. **Mordad** - Immortality
-6. **Shahrivar** - Desirable dominion
-7. **Mehr** - Love/affection
-8. **Aban** - Waters
-9. **Azar** - Fire
-10. **Dey** - Creator
-11. **Bahman** - Good mind
-12. **Esfand** - Holy devotion
+1. **Ichika** - Ichi: 1
+2. **Futaba** - Futa: 2
+3. **Mikasa** - Mi(tsu): 3
+4. **Yotsuba** - Yotsu: 4
+5. **Itsuki** - Itsu: 5
+6. **Mutsumi** - Mutsu: 6
+7. **Nanako** - Nana: 7
+8. **Yabuki** - Yatsu: 8
+9. **Kokoro** - Koko(notsu): 9
+10. **Tobira** - Tō: 10
+11. **Toichi** - Tō + Ichi: 10 + 1
+12. **Tofuro** - Tō + Futa: 10 + 2
+13. **Tomita** - Tō + Mi(tsu): 10 + 3
 
 ## CalendarProcessor Class
 
 The `CalendarProcessor` class provides:
 
 ### Properties
-- `solarMonths` - Complete solar month data with English names, Persian names, and Gregorian mappings
+- `solarMonths` - Complete solar month data with month names, and Gregorian mappings
 - `gregorianMonths` - Standard month names
-- `vernalEquinoxData` - Vernal equinox dates for years 1900-2100
+- `vernalEquinoxData` - Vernal equinox dates for years 2001-2100
+- `summerSolsticeData` - Summer Soltice dates for years 2001-2100
+- `fallEquinoxData` - Fall Equinox dates for years 2001-2100
+- `winterSolsticeData` - Winter Equinox dates for years 2001-2100
+- `newMoonData` - new moon dates for years 2001-2081
 
 ### Key Methods
 
@@ -106,7 +117,7 @@ getSolarDateFromGregorian(gregorianDate, gregorianYear)
 #### Astronomical Events
 ```javascript
 getAstronomicalEvents(year)
-// Get all 4 astronomical events for a year
+// Get all astronomical events for a year
 
 checkAstronomicalEvent(date, year)
 // Check if a date is an astronomical event
@@ -115,10 +126,10 @@ checkAstronomicalEvent(date, year)
 #### Formatting
 ```javascript
 formatSolarMonthTitle(monthIndex)
-// Returns: { main: "First Month / March-April", sub: "Farvardin / 1/12" }
+// Returns: { main: "Ichika", sub: "Gregorian: March-April" }
 
 formatGregorianMonthTitle(gregorianMonthIndex)
-// Returns: { main: "March / Farvardin-Ordibehesht", sub: "Solar Months: 1-2/12" }
+// Returns: { main: "March", sub: "Solar: Tomita-Ichika" }
 ```
 
 ## Usage
@@ -136,7 +147,7 @@ calendar-styles.css
 Each HTML file works independently and includes all necessary JavaScript inline.
 
 ### Year Selection
-Both calendars support years 1900-2100 through the year input control.
+Both calendars support years 2001-2082 through the year input control.
 
 ### Theme Toggle
 - Light/Dark mode toggle
@@ -147,7 +158,7 @@ Both calendars support years 1900-2100 through the year input control.
 - Previous/Next month buttons
 - Smooth scrolling between months
 - Active month indicator
-- **Clickable month headings** - hover to see link effect, click to navigate to other calendar
+- **Clickable month headings** - hover to see link effect, click to navigate to other calendar (TODO)
 - Month headings show hover state to indicate they are clickable
 
 ## Technical Details
@@ -155,13 +166,15 @@ Both calendars support years 1900-2100 through the year input control.
 ### Solar Calendar
 - Based on astronomical observations
 - Starts at Vernal Equinox (Nowruz - Persian New Year)
-- First 6 months: 31 days each
-- Next 5 months: 30 days each  
-- Last month (Esfand): 29 days (30 in leap years)
+- First month: 29 days (0-28)
+  - Day 0 is labeled "Equinox Day"
+- Next 11 months: 28 days each
+- Last month: 28 days (29 in leap years)
+  - Day 29 is labeled "Leap Day"
 
 ### Date Calculations
 - Solar year starts March 20/21 (Vernal Equinox)
-- Leap years follow Gregorian leap year rules for simplicity
+- Leap days are inserter when the difference between the last day of the year and start of the next is 2 days
 - Astronomical event dates are approximations
 
 ### Browser Compatibility
@@ -181,14 +194,12 @@ Modify `calendar-styles.css` to customize:
 
 ### Date Processing
 Extend `CalendarProcessor` class to:
-- Add more calendar systems
 - Improve astronomical event accuracy
-- Add cultural holidays
 - Implement custom date calculations
 
 ## License
 This calendar system is provided as-is for educational and personal use.
 
 ## Credits
-Solar calendar based on the Persian Solar Hijri calendar system.
+Solar calendar based on the solar calendar system by [Tom Gould](https://github.com/tomgould)
 Astronomical event calculations are approximate for demonstration purposes.
