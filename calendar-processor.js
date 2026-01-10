@@ -224,6 +224,7 @@ class CalendarProcessor {
     // Regular day within the 13 months
     const monthIndex = Math.floor(daysSinceSolarYearStart / 28);
     const dayOfMonth = (daysSinceSolarYearStart % 28) + 1;
+    const lunarDay = this.getLunarDay(gDateUTC);
 
     const isLeap = this.isSolarLeapYear(solarYear);
     const month = this.calendarStructure[monthIndex];
@@ -237,6 +238,7 @@ class CalendarProcessor {
       monthIndex: monthIndex,
       month: month,
       day: dayOfMonth,
+      lday: lunarDay,
       year: solarYear,
       monthName: month.name,
       monthNumber: monthIndex + 1,
