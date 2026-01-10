@@ -203,7 +203,7 @@ class CalendarProcessor {
    */
   getSolarDateFromGregorian(gregorianDate) {
     const gDateUTC = new Date(Date.UTC(gregorianDate.getUTCFullYear(), gregorianDate.getUTCMonth(), gregorianDate.getUTCDate()));
-    const gYear = gregorianDate.getFullYear();
+    const gYear = gregorianDate.getUTCFullYear();
 
     let solarYear = gYear;
     let solarYearStartDate = this.getSolarYearStartDate(solarYear);
