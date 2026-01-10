@@ -337,7 +337,7 @@ class CalendarProcessor {
     const dateStr = this.toISODateString(date);
     const moonAge = this.getLunarDay(date);
     const lunarEvents = [ 0, 7, 14, 21];
-    const lunarBadges = { 0: '🌑', 7: '🌒', 14: '🌕', 21: '🌘'};
+    const lunarBadges = { 0: '🌑', 7: '🌓', 14: '🌕', 21: '🌗'};
     for (const [key, eventDate] of Object.entries(events)) {
         if (!eventDate || isNaN(eventDate.getTime())) continue;
         const eventDateStr = this.toISODateString(eventDate);

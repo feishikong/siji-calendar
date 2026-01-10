@@ -35,16 +35,23 @@ Solar: Tomita-Ichika
 - **Gregorian Month**: Standard month name
 - **Solar Months**: Corresponding Solar month names
 
+### Shisan Date Format
+Shisan dates are formatted as
+```
+Month-Name SolarDay:LunarDay`
+```
+so a date such as "2 April 2026" becomes `Ichika 13:14`
+
 ### Astronomical Events
 Both calendars display:
-- 🌱 **Vernal Equinox** (March 20) - Spring begins
-- ☀️ **Summer Solstice** (June 21) - Longest day
-- 🍂 **Autumn Equinox** (September 22) - Fall begins
-- ❄️ **Winter Solstice** (December 21) - Shortest day
-- 🌑**New Moon**
-- 🌒**First Quarter** (7 days after New Moon)
-- 🌕**Full Moon** (14 days after New Moon)
-- 🌘**Last Quarter** (21 days after New Moon)
+- 🌱 **Vernal Equinox** - Spring begins
+- ☀️  **Summer Solstice** - Longest day
+- 🍂 **Autumn Equinox** - Fall begins
+- ❄️  **Winter Solstice** - Shortest day
+- 🌑 **New Moon** - Lunation cycle starts
+- 🌓 **First Quarter** - 7 days after New Moon
+- 🌕 **Full Moon** - 14 days after New Moon
+- 🌗 **Last Quarter** - 21 days after New Moon
 
 Features:
 - Clickable event cards with hover tooltips
@@ -201,5 +208,5 @@ Extend `CalendarProcessor` class to:
 This calendar system is provided as-is for educational and personal use.
 
 ## Credits
-Solar calendar based on the solar calendar system by [Tom Gould](https://github.com/tomgould)
+Shisan calendar is derived from the solar calendar system by [Tom Gould](https://github.com/tomgould).
 Astronomical event calculations are approximate for demonstration purposes.
