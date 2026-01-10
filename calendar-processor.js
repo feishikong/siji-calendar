@@ -314,7 +314,8 @@ class CalendarProcessor {
     return events;
   }
 
-  getLunarDay(year, gregorianDate){
+  getLunarDay(gregorianDate){
+	  const year = gregorianDate.getUTCFullYear();
 	  let newMoonDate = this.newMoonData[year].map( date => new Date(date)).filter( newMoonDay => {
 		  const today = new Date(Date.UTC(gregorianDate.getUTCFullYear(), gregorianDate.getUTCMonth(), gregorianDate.getUTCDate(), newMoonDay.getUTCHours(), newMoonDay.getUTCMinutes(), newMoonDay.getUTCSeconds(), newMoonDay.getUTCMilliseconds()));
 		  return newMoonDay <= today;
@@ -332,7 +333,7 @@ class CalendarProcessor {
   checkAstronomicalEvent(date, year) {
     const events = this.getAstronomicalEvents(year);
     const dateStr = this.toISODateString(date);
-    const moonAge = this.getLunarDay(year, date);
+    const moonAge = this.getLunarDay(date);
     const lunarEvents = [ 0, 7, 14, 21];
     const lunarBadges = { 0: '🌑', 7: '🌒', 14: '🌕', 21: '🌘'};
     for (const [key, eventDate] of Object.entries(events)) {

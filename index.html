@@ -160,16 +160,13 @@
             const gregorianDateStr = calendarProcessor.toISODateString(gregorianDate);
             dayDiv.setAttribute('data-gregorian-date', gregorianDateStr);
             if (gregorianDateStr === todayStr) dayDiv.classList.add('today');
-            let astroEvent = "";
-            if (monthIndex >= 10 && gregorianDate.getMonth() < 3) astroEvent = calendarProcessor.checkAstronomicalEvent(gregorianDate, selectedYear + 1);
-            else astroEvent = calendarProcessor.checkAstronomicalEvent(gregorianDate, selectedYear);
+            const astroEvent = calendarProcessor.checkAstronomicalEvent(gregorianDate, selectedYear);
             if (astroEvent) {
               dayDiv.classList.add(astroEvent.class);
               const badge = document.createElement('div'); badge.className = 'astro-badge';
               badge.textContent = astroEvent.icon; dayDiv.appendChild(badge);
             }
-            if (monthIndex >= 10 && gregorianDate.getMonth() < 3) lunarDay = calendarProcessor.getLunarDay(selectedYear+1, gregorianDate);
-            else lunarDay = calendarProcessor.getLunarDay(selectedYear, gregorianDate);
+            const lunarDay = calendarProcessor.getLunarDay(gregorianDate);
             const dayNumber = document.createElement('div'); dayNumber.className = 'day-number';
             if(dayOfMonth == 0) dayNumber.textContent = "Equinox Day";
             else if(dayOfMonth == 29) dayNumber.textContent = "Leap Day";
