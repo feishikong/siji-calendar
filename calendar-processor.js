@@ -43,7 +43,7 @@ class CalendarProcessor {
    */
   async loadAstronomicalData() {
     try {
-      const response = await fetch('astronomical-event_dates_2001_to_2100.json');
+      const response = await fetch('https://feishikong.github.io/Shisan-calendar/data/equinoxes-and-solstices/');
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -96,21 +96,16 @@ class CalendarProcessor {
         return acc;
       }, {});
 
-      const newMoon = await fetch('https://feishikong.github.io/moon-data/api/new-moon-data/');
+      const newMoon = await fetch('https://feishikong.github.io/Shisan-calendar/data/new-moons/');
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-      const newMoonData = await newMoon.json();
-      await Promise.all(
-        newMoonData.years.map( async (entry) => {
-          const newMoonDates = await fetch('https://feishikong.github.io/moon-data/api/new-moon-data/'+entry+'/');
-          if (!newMoonDates.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-          }
-          const newMoonDays = await newMoonDates.json();
-          this.newMoonData[entry] = newMoonDays;
-        })
-      );
+      const dataNewMoon = await newMoon.json();
+      this.newMoonData = dataNewMoon.reduce((acc, entry) => {
+	const year = parseInt(entry.year, 10);
+	acc[year] = entry.newMoon;
+        return acc;
+      }, {});
       // Pre-calculate start dates after loading
       this.preCalculateYearStartDates();
 

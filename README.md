@@ -209,4 +209,4 @@ This calendar system is provided as-is for educational and personal use.
 
 ## Credits
 Shisan calendar is derived from the solar calendar system by [Tom Gould](https://github.com/tomgould).
-Astronomical event calculations are approximate for demonstration purposes.
+Astronomical event calculations are based on the [Solstice and Equinox Table](https://www.astropixels.com/ephemeris/soleq2001.html) and [Moon Phases Table](https://www.astropixels.com/ephemeris/moon/phases2001gmt.html) Courtesy of Fred Espenak, www.Astropixels.com
