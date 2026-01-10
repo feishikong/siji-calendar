@@ -276,24 +276,12 @@ class CalendarProcessor {
     const gregMonthEndDate = new Date(Date.UTC(gregorianYear, gregorianMonthIndex + 1, 0));
     const solarStartInfo = this.getSolarDateFromGregorian(gregMonthStartDate);
     const solarEndInfo = this.getSolarDateFromGregorian(gregMonthEndDate);
-    let solarInfoStr = '';
-    let solarNumStr = '';
-    if (solarStartInfo && solarEndInfo) {
-        const startMonthName = solarStartInfo.monthName || solarStartInfo.specialDay;
-        const endMonthName = solarEndInfo.monthName || solarEndInfo.specialDay;
-        if (startMonthName === endMonthName) {
-            solarInfoStr = startMonthName;
-            if (solarStartInfo.monthNumber) solarNumStr = `${solarStartInfo.monthNumber}/13`;
-        } else {
-             solarInfoStr = `${startMonthName}-${endMonthName}`;
-             if(solarStartInfo.monthNumber && solarEndInfo.monthNumber) solarNumStr = `${solarStartInfo.monthNumber}-${solarEndInfo.monthNumber}/13`;
-             else if (solarStartInfo.monthNumber) solarNumStr = `${solarStartInfo.monthNumber}/13+`;
-             else if (solarEndInfo.monthNumber) solarNumStr = `+${solarEndInfo.monthNumber}/13`;
-        }
-    }
+    const startMonthName = solarStartInfo.monthName;
+    const endMonthName = solarEndInfo.monthName;
+    const solarInfoStr = `${startMonthName}-${endMonthName}`;
     return {
-      main: `${gregorianMonthName} / Solar: ${solarInfoStr}`,
-      sub: solarNumStr ? `Month(s) ${solarNumStr}` : ''
+      main: `${gregorianMonthName}`,
+      sub: ` Solar: ${solarInfoStr}`
     };
   }
 
