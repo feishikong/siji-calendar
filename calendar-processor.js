@@ -320,12 +320,12 @@ class CalendarProcessor {
 
   findFirstCrescent(newMoonDate) {
     let check = new Date(newMoonDate);
-    while (true) {
-      const sunset = this.getSunset(check);
-      const moonToSunset = (check - sunset)/(60*60*1000);
-      if(moonToSunset > 1.519 || moonToSunset < -15) check.setUTCDate(check.getUTCDate() + 1);
-      return check;
-    }
+    const jerusalemNewMoon = new Date(newMoonDate.toLocaleString("sv-SE", {timeZone: 'Asia/Jerusalem'}));
+    check.setUTCDate(jerusalemNewMoon.getUTCDate() + 1);
+    const sunset = this.getSunset(check);
+    const moonIllum = (this.sunCalc.getMoonIllumination(sunset).fraction*100).toFixed(2);
+    if(moonIllum < 1.1) jerusalemNewMoon.setUTCDate(jerusalemNewMoon.getUTCDate() + 1);
+    return jerusalemNewMoon;
   }
 
   getLunarDay(gregorianDate){
