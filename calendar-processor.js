@@ -28,7 +28,8 @@ class CalendarProcessor {
     this.dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
     this.dayNamesFull = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
     this.firstDayOfYear = {};
-
+    this.lunarDay = {}
+    this.sunCalc = {};
     this.newMoonData = {}; // Populated by loadAstronomicalData
     this.vernalEquinoxData = {}; // Populated by loadAstronomicalData
     this.summerSolsticeData = {}; // Populated by loadAstronomicalData
@@ -36,6 +37,7 @@ class CalendarProcessor {
     this.winterSolsticeData = {}; // Populated by loadAstronomicalData
     this.solarYearStartDateCache = {}; // Cache for Gregorian start date of each Solar year
     this.astronomicalEventCache = {}; // Cache for approximate astronomical event dates (Gregorian)
+    this.locationVisibility = { latitude: 31.78902, longitude: 35.20108 };
   }
 
   /**
@@ -43,6 +45,7 @@ class CalendarProcessor {
    */
   async loadAstronomicalData() {
     try {
+      this.sunCalc = await import('https://cdn.skypack.dev/suncalc2');
       const response = await fetch('https://feishikong.github.io/Shisan-calendar/data/equinoxes-and-solstices/');
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
@@ -311,9 +314,23 @@ class CalendarProcessor {
     return events;
   }
 
+  getSunset(date) {
+     return this.sunCalc.getTimes(date, this.locationVisibility.latitude, this.locationVisibility.longitude).sunset;
+  }
+
+  findFirstCrescent(newMoonDate) {
+    let check = new Date(newMoonDate);
+    while (true) {
+      const sunset = this.getSunset(check);
+      const moonToSunset = (check - sunset)/(60*60*1000);
+      if(moonToSunset > 1.519 || moonToSunset < -15) check.setUTCDate(check.getUTCDate() + 1);
+      return check;
+    }
+  }
+
   getLunarDay(gregorianDate){
 	  const year = gregorianDate.getUTCFullYear();
-	  let newMoonDate = this.newMoonData[year].map( date => new Date(date)).filter( newMoonDay => {
+	  let newMoonDate = this.newMoonData[year].map( date => this.findFirstCrescent(new Date(date))).filter( newMoonDay => {
 		  const today = new Date(Date.UTC(gregorianDate.getUTCFullYear(), gregorianDate.getUTCMonth(), gregorianDate.getUTCDate(), newMoonDay.getUTCHours(), newMoonDay.getUTCMinutes(), newMoonDay.getUTCSeconds(), newMoonDay.getUTCMilliseconds()));
 		  return newMoonDay <= today;
 	  }).reduce((latest, date) => (latest === null || date > latest ? date: latest), null);
@@ -330,7 +347,7 @@ class CalendarProcessor {
   checkAstronomicalEvent(date, year) {
     const events = this.getAstronomicalEvents(year);
     const dateStr = this.toISODateString(date);
-    const moonAge = this.getLunarDay(date);
+    const moonAge = this.lunarDay;
     const lunarEvents = [ 0, 7, 14, 21];
     const lunarBadges = { 0: '🌑', 7: '🌓', 14: '🌕', 21: '🌗'};
     for (const [key, eventDate] of Object.entries(events)) {
