@@ -30,6 +30,7 @@ class CalendarProcessor {
     this.firstDayOfYear = {};
     this.lunarDay = {}
     this.sunCalc = {};
+    this.jerusalemNewMoon = {}; // Populated by loadAstronomicalData
     this.newMoonData = {}; // Populated by loadAstronomicalData
     this.vernalEquinoxData = {}; // Populated by loadAstronomicalData
     this.summerSolsticeData = {}; // Populated by loadAstronomicalData
@@ -158,6 +159,7 @@ class CalendarProcessor {
    preCalculateYearStartDates() {
        for (let year = 2001; year <= 2100; year++) {
            this.getSolarYearStartDate(year); // Calculate and cache
+           this.jerusalemNewMoon[year] = this.newMoonData[year].map( date => this.findFirstCrescent(new Date(date)));
            this.firstDayOfYear[year] = this.getSolarYearStartDate(year).getUTCDay();
        }
    }
@@ -307,7 +309,7 @@ class CalendarProcessor {
       autumnEquinox: fallEquinoxDate,
       winterSolstice: winterSolsticeDate,
     };
-    this.newMoonData[year].forEach((iso, index) => {
+    this.jerusalemNewMoon[year].forEach((iso, index) => {
         events[`newMoon${index}`] = new Date(iso);
     });
     this.astronomicalEventCache[year] = events;
@@ -330,7 +332,7 @@ class CalendarProcessor {
 
   getLunarDay(gregorianDate){
 	  const year = gregorianDate.getUTCFullYear();
-	  let newMoonDate = this.newMoonData[year].map( date => this.findFirstCrescent(new Date(date))).filter( newMoonDay => {
+	  let newMoonDate = this.jerusalemNewMoon[year].filter( newMoonDay => {
 		  const today = new Date(Date.UTC(gregorianDate.getUTCFullYear(), gregorianDate.getUTCMonth(), gregorianDate.getUTCDate(), newMoonDay.getUTCHours(), newMoonDay.getUTCMinutes(), newMoonDay.getUTCSeconds(), newMoonDay.getUTCMilliseconds()));
 		  return newMoonDay <= today;
 	  }).reduce((latest, date) => (latest === null || date > latest ? date: latest), null);
