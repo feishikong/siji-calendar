@@ -38,7 +38,7 @@ Solar: Tomita-Ichika
 ### Shisan Date Format
 Shisan dates are formatted as
 ```
-Month-Name SolarDay:LunarDay`
+Month-Name SolarDay:LunarDay
 ```
 so a date such as "2 April 2026" becomes `Ichika 13:14`
 
@@ -75,7 +75,7 @@ Features:
 - Gregorian calendar day → Opens exact date in Solar calendar
 
 ### Calendar Name Origin
-The name of the calendar is derived from Chinese numeral based on the fact that it has 13 months
+The name of the calendar is derived from Chinese numerals based on the fact that it has 13 months
 
 **Shisan** - Shísān 10 + 3
 
@@ -181,8 +181,8 @@ Both calendars support years 2001-2082 through the year input control.
 
 ### Date Calculations
 - Solar year starts March 20/21 (Vernal Equinox)
-- Leap days are inserter when the difference between the last day of the year and start of the next is 2 days
-- Astronomical event dates are approximations
+- Leap days are inserted when the difference between the last day of the year and start of the next is 2 days
+- Astronomical event dates are based on ephemeris data and calculations performed by [suncalc](https://github.com/mourner/suncalc)
 
 ### Browser Compatibility
 - Modern browsers (Chrome, Firefox, Safari, Edge)
@@ -198,11 +198,6 @@ Modify `calendar-styles.css` to customize:
 - Layout dimensions
 - Typography
 - Animation timing
-
-### Date Processing
-Extend `CalendarProcessor` class to:
-- Improve astronomical event accuracy
-- Implement custom date calculations
 
 ## License
 This calendar system is provided as-is for educational and personal use.
