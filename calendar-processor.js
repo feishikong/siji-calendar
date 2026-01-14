@@ -322,11 +322,12 @@ class CalendarProcessor {
 
   findFirstCrescent(newMoonDate) {
     let check = new Date(newMoonDate);
-    const jerusalemNewMoon = new Date(newMoonDate.toLocaleString("sv-SE", {timeZone: 'Asia/Jerusalem'}));
+    const jerusalemNewMoon = new Date(newMoonDate.toLocaleDateString("sv-SE", {timeZone: 'Asia/Jerusalem'}));
     check.setUTCDate(jerusalemNewMoon.getUTCDate() + 1);
     const sunset = this.getSunset(check);
+    const moonAge = (sunset - newMoonDate)/(24*60*60*1000);
     const moonIllum = (this.sunCalc.getMoonIllumination(sunset).fraction*100).toFixed(2);
-    if(moonIllum < 1.1) jerusalemNewMoon.setUTCDate(jerusalemNewMoon.getUTCDate() + 1);
+    if(moonAge < 0.95 && moonIllum < 1.45) jerusalemNewMoon.setUTCDate(jerusalemNewMoon.getUTCDate() + 1);
     return jerusalemNewMoon;
   }
 
