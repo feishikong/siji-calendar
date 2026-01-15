@@ -160,6 +160,10 @@
             const gregorianDateStr = calendarProcessor.toISODateString(gregorianDate);
             dayDiv.setAttribute('data-gregorian-date', gregorianDateStr);
             if (gregorianDateStr === todayStr) dayDiv.classList.add('today');
+	    if (gregorianDate.getUTCFullYear() > 2100) {
+		calendarProcessor.gregorianYear = gregorianDate.getUTCFullYear();
+	        break;
+	    }
             calendarProcessor.lunarDay = calendarProcessor.getLunarDay(gregorianDate);
             const astroEvent = calendarProcessor.checkAstronomicalEvent(gregorianDate, selectedYear);
             if (astroEvent) {
@@ -185,6 +189,7 @@
            monthDiv.appendChild(dayDiv);
         }
         container.appendChild(monthDiv);
+        if (this.gregorianYear > 2100) return;
       if(calendarProcessor.calendarStructure[monthIndex].days == 29 || monthIndex == 0) document.getElementById(`month-${monthIndex}`).classList.add("leap");
       });
       updateDisplay();
@@ -206,6 +211,10 @@
       let newMonth = currentMonth + direction;
       if (newMonth < 0) { selectedYear--; if (selectedYear < 2001) selectedYear = 2001; newMonth = 12; document.getElementById('year-input').value = selectedYear; generateCalendar(); }
       else if (newMonth >= 13) { selectedYear++; if (selectedYear > 2100) selectedYear = 2100; newMonth = 0; document.getElementById('year-input').value = selectedYear; generateCalendar(); }
+      else if (newMonth >= 11 && selectedYear == 2100) {
+	      console.log(calendarProcessor.gregorianYear);
+	      selectedYear=2100; newMonth =0; document.getElementById('year-input').value =selectedYear; generateCalendar();
+      }
       currentMonth = newMonth;
       updateDisplay();
     }

@@ -28,6 +28,7 @@ class CalendarProcessor {
     this.dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
     this.dayNamesFull = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
     this.firstDayOfYear = {};
+    this.gregorianYear = {};
     this.lunarDay = {}
     this.sunCalc = {};
     this.jerusalemNewMoon = {}; // Populated by loadAstronomicalData
