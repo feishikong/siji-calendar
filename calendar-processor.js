@@ -47,8 +47,12 @@ class CalendarProcessor {
    */
   async loadAstronomicalData() {
     try {
-      this.sunCalc = await import('https://feishikong.github.io/Shisan-calendar/data/suncalc.js')
-      const response = await fetch('https://feishikong.github.io/Shisan-calendar/data/equinoxes-and-solstices/');
+      const [ response, newMoon, sunCalc ] = await Promise.all([
+	      fetch('https://feishikong.github.io/Shisan-calendar/data/equinoxes-and-solstices/'),
+	      fetch('https://feishikong.github.io/Shisan-calendar/data/new-moons/'),
+	      import('https://feishikong.github.io/Shisan-calendar/data/suncalc.js')
+      ]);
+      this.sunCalc = sunCalc;
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
@@ -101,8 +105,7 @@ class CalendarProcessor {
         return acc;
       }, {});
 
-      const newMoon = await fetch('https://feishikong.github.io/Shisan-calendar/data/new-moons/');
-      if (!response.ok) {
+      if (!newMoon.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
       const dataNewMoon = await newMoon.json();
