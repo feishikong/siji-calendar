@@ -156,14 +156,10 @@
           const solarDayOfYear = month.startDay + dayOfMonth - 1;
           const gregorianDate = calendarProcessor.getGregorianDateForSolarDay(selectedYear, solarDayOfYear);
           const dayDiv = document.createElement('div'); dayDiv.className = 'day solar-day-cell'; // Renamed class slightly
-          if (gregorianDate && !isNaN(gregorianDate.getTime())) {
+          if (gregorianDate && !isNaN(gregorianDate.getTime()) && gregorianDate.getUTCFullYear() <= 2100) {
             const gregorianDateStr = calendarProcessor.toISODateString(gregorianDate);
             dayDiv.setAttribute('data-gregorian-date', gregorianDateStr);
             if (gregorianDateStr === todayStr) dayDiv.classList.add('today');
-	    if (gregorianDate.getUTCFullYear() > 2100) {
-		calendarProcessor.gregorianYear = gregorianDate.getUTCFullYear();
-	        break;
-	    }
             calendarProcessor.lunarDay = calendarProcessor.getLunarDay(gregorianDate);
             const astroEvent = calendarProcessor.checkAstronomicalEvent(gregorianDate, selectedYear);
             if (astroEvent) {
@@ -183,7 +179,10 @@
             gregorianInfo.innerHTML = `${gMonth.substring(0,3)} ${gDay}`; dayDiv.appendChild(gregorianInfo);
             dayDiv.style.cursor = 'pointer';
             dayDiv.addEventListener('click', () => { window.location.href = `gregorian-calendar.html?date=${gregorianDateStr}&year=${selectedYear}`; });
-          } else {
+          } else  if (gregorianDate.getUTCFullYear() > 2100) {
+		calendarProcessor.gregorianYear = gregorianDate.getUTCFullYear();
+                dayDiv.classList.add('empty', 'day');
+	  } else {
                dayDiv.classList.add('empty', 'error'); dayDiv.textContent = '?';
           }
            monthDiv.appendChild(dayDiv);
