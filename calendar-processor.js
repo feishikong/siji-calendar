@@ -47,7 +47,7 @@ class CalendarProcessor {
    */
   async loadAstronomicalData() {
     try {
-      this.sunCalc = await import('https://cdn.skypack.dev/suncalc2');
+      this.sunCalc = await import('https://feishikong.github.io/Shisan-calendar/data/suncalc.js')
       const response = await fetch('https://feishikong.github.io/Shisan-calendar/data/equinoxes-and-solstices/');
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
