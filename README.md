@@ -92,7 +92,7 @@ The Solar month names are derived from Japanese numerals:
 7. **Nanako** - Nana: 7
 8. **Yabuki** - Yatsu: 8
 9. **Kokoro** - Koko(notsu): 9
-10. **Tobira** - Tō: 10
+10. **Tomoya** - Tō: 10
 11. **Toichi** - Tō + Ichi: 10 + 1
 12. **Tofuro** - Tō + Futa: 10 + 2
 13. **Tomita** - Tō + Mi(tsu): 10 + 3

@@ -18,7 +18,7 @@ class CalendarProcessor {
       { name: 'Nanako', days: 28, startDay: 169 },
       { name: 'Yabuki', days: 28, startDay: 197 },
       { name: 'Kokoro', days: 28, startDay: 225 },
-      { name: 'Tobira', days: 28, startDay: 253 },
+      { name: 'Tomoya', days: 28, startDay: 253 },
       { name: 'Toichi', days: 28, startDay: 281 },
       { name: 'Tofuro', days: 28, startDay: 309 },
       { name: 'Tomita', days: 28, startDay: 337 } // Ends on day 365
