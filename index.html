@@ -104,7 +104,10 @@
         if (!date || isNaN(date.getTime())) return '';
         const monthName = calendarProcessor.gregorianMonths[date.getUTCMonth()];
         const day = date.getUTCDate(); const dayName = calendarProcessor.dayNames[date.getUTCDay()];
-        return `<div class="astro-event ${event.class}" onclick="navigateToGregorianEvent('${event.key}')"><div class="astro-event-icon">${event.title.split(' ')[0]}</div><div class="astro-event-title">${event.title.substring(3)}</div><div class="astro-event-date">${dayName}, ${monthName} ${day}</div><div class="astro-tooltip">${event.description}<br><small>${event.time}</small></div></div>`;
+          const solarInfo = calendarProcessor.getSolarDateFromGregorian(date); // Get the Solar info
+          let dateEvent = solarInfo.monthName + " " + solarInfo.day;
+          if(event.key == "vernalEquinox") dateEvent = "Equinox Day";
+        return `<div class="astro-event ${event.class}" onclick="navigateToGregorianEvent('${event.key}')"><div class="astro-event-icon">${event.title.split(' ')[0]}</div><div class="astro-event-title">${event.title.substring(3)}</div><div class="astro-event-date">${dayName}, ${dateEvent}</div><div class="astro-tooltip">${event.description}<br><small>${event.time}</small></div></div>`;
       }).join('');
     }
 

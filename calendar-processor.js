@@ -241,12 +241,12 @@ class CalendarProcessor {
 
     let weekOfMonth = Math.floor(dayOfMonth / 7);
     if(dayOfMonth % 7 == 0) weekOfMonth--;
+    const shisanDay = this.weekNumbers[weekOfMonth]+lunarDay;
 
     return {
       monthIndex: monthIndex,
       month: month,
-      day: this.weekNumbers[weekOfMonth],
-      lday: lunarDay,
+      day: shisanDay,
       year: solarYear,
       monthName: month.name,
       monthNumber: monthIndex + 1,
