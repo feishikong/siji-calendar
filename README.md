@@ -85,11 +85,11 @@ The name of the calendar is derived from Chinese numerals based on the fact that
 The Solar month names are derived from Japanese numerals:
 
 1. **Hibiki** - Hi(tori): 1
-2. **Futaba** - Futa(ri): 2
+2. **Furuta** - Fu(tari): 2
 3. **Suzuka** - Su(rī): 3
 4. **Yotsuba** - Yotsu: 4
 5. **Itsuki** - Itsu: 5
-6. **Mutsuki** - Mutsu: 6
+6. **Mugino** - Mu(tsu): 6
 7. **Nagisa** - Na(na): 7
 8. **Hazuki** - Ha(chi): 8
 9. **Kokoro** - Koko(notsu): 9
