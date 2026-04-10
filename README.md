@@ -100,7 +100,7 @@ The Solar month names are derived from Japanese numerals:
 
 ### Weekday Name Origins
 
-The weekdays are borrowed from the Hebrew calendar which are numerical with the exception of the seventh day
+The weekdays are borrowed from the Hebrew calendar which are numerical with the exception of the seventh day; 
 the numerical names are abbreviated using Hebrew numberals
 
 1. <span dir='rtl'>יום א׳</span> (Yom Alef) - Day One
