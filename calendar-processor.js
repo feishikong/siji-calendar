@@ -25,6 +25,7 @@ class CalendarProcessor {
     ];
 
     this.gregorianMonths = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+    this.gregorianDayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
     this.dayNames = ['יום א׳', 'יום ב׳', 'יום ג׳', 'יום ד׳', 'יום ה׳ ', 'יום ו׳', 'שבת'];
     this.weekNumbers = ['αʹ', 'βʹ', 'γʹ', 'δʹ'];
     this.firstDayOfYear = {};

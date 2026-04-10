@@ -91,7 +91,7 @@
       container.innerHTML = eventData.map(event => {
         const date = events[event.key]; if (!date || isNaN(date.getTime())) return '';
         const monthName = calendarProcessor.gregorianMonths[date.getUTCMonth()];
-        const day = date.getUTCDate(); const dayName = calendarProcessor.dayNames[date.getUTCDay()];
+        const day = date.getUTCDate(); const dayName = calendarProcessor.gregorianDayNames[date.getUTCDay()];
         return `<div class="astro-event ${event.class}" onclick="navigateToEvent('${event.key}')"> <div class="astro-event-icon">${event.title.split(' ')[0]}</div> <div class="astro-event-title">${event.title.substring(3)}</div> <div class="astro-event-date">${dayName}, ${monthName} ${day}</div> <div class="astro-tooltip"> ${event.description}<br> <small>${event.time}</small> </div> </div>`;
       }).join('');
     }
@@ -122,7 +122,7 @@
       for (let monthIndex = 0; monthIndex < 12; monthIndex++) {
         const monthDiv = document.createElement('div');
         monthDiv.className = 'month'; monthDiv.id = `month-${monthIndex}`;
-        calendarProcessor.dayNames.forEach(dayName => {
+        calendarProcessor.gregorianDayNames.forEach(dayName => {
           const header = document.createElement('div'); header.className = 'header';
           header.textContent = dayName; monthDiv.appendChild(header);
         });
