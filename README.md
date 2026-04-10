@@ -103,13 +103,13 @@ The Solar month names are derived from Japanese numerals:
 The weekdays are borrowed from the Hebrew calendar which are numerical with the exception of the seventh day
 the numerical names are abbreviated using Hebrew numberals
 
-1. יום א׳ (Yom Alef) - Day One
-2. יום ב׳ (Yom Bet) - Day Two
-3. יום ג׳ (Yom Gimel) - Day Three
-4. יום ד׳ (Yom Dalet) - Day Four
-5. יום ה׳ (Yom Heh) - Day Five
-6. יום ו׳ (Yom Vav) - Day Six
-7. שבת (Shabbat) - (Day of) Rest
+1. <span dir='rtl'>יום א׳</span> (Yom Alef) - Day One
+2. <span dir='rtl'>יום ב׳</span> (Yom Bet) - Day Two
+3. <span dir='rtl'>יום ג׳</span> (Yom Gimel) - Day Three
+4. <span dir='rtl'>יום ד׳</span> (Yom Dalet) - Day Four
+5. <span dir='rtl'>יום ה׳</span> (Yom Heh) - Day Five
+6. <span dir='rtl'>יום ו׳</span> (Yom Vav) - Day Six
+7. <span dir='rtl'>שבת</span> (Shabbat) - (Day of) Rest
 
 ## CalendarProcessor Class
 
