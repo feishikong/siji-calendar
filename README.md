@@ -20,7 +20,7 @@ A comprehensive dual-calendar system displaying both Solar (13 month Spring Equi
 ### Solar Calendar Display Format
 Each month shows:
 ```
-Ichika
+Hibiki
 Gregorian: March-April
 ```
 - **Solar Month**: Names derived from Japanese Numerals
@@ -30,7 +30,7 @@ Gregorian: March-April
 Each month shows:
 ```
 March
-Solar: Tomita-Ichika
+Solar: Tomita-Hibiki
 ```
 - **Gregorian Month**: Standard month name
 - **Solar Months**: Corresponding Solar month names
@@ -41,7 +41,7 @@ Shisan dates are formatted as
 Month-Name WeekNumberʹLunarDay
 ```
 where Weeknumber is rendered with Greek numerals
-so a date such as "2 April 2026" becomes `Ichika αʹ14`
+so a date such as "22 March 2027" becomes `2027 Hibiki αʹ14`
 
 ### Astronomical Events
 Both calendars display:
@@ -84,24 +84,24 @@ The name of the calendar is derived from Chinese numerals based on the fact that
 
 The Solar month names are derived from Japanese numerals:
 
-1. **Ichika** - Ichi: 1
-2. **Futaba** - Futa: 2
-3. **Mikasa** - Mi(tsu): 3
+1. **Hibiki** - Hi(tori): 1
+2. **Futaba** - Futa(ri): 2
+3. **Suzuka** - Su(rī): 3
 4. **Yotsuba** - Yotsu: 4
 5. **Itsuki** - Itsu: 5
-6. **Mutsumi** - Mutsu: 6
-7. **Nanako** - Nana: 7
-8. **Yabuki** - Yatsu: 8
+6. **Mutsuki** - Mutsu: 6
+7. **Nagisa** - Na(na): 7
+8. **Hazuki** - Ha(chi): 8
 9. **Kokoro** - Koko(notsu): 9
 10. **Tomoya** - Tō: 10
-11. **Toichi** - Tō + Ichi: 10 + 1
-12. **Tofuro** - Tō + Futa: 10 + 2
+11. **Towasa** - Tō + Wa(n): 10 + 1
+12. **Tojima** - Tō + Ji: 10 + 2
 13. **Tomita** - Tō + Mi(tsu): 10 + 3
 
 ### Weekday Name Origins
 
 The weekdays are borrowed from the Hebrew calendar which are numerical with the exception of the seventh day; 
-the numerical names are abbreviated using Hebrew numberals
+the numerical names are abbreviated using Hebrew numerals
 
 1. <span dir='rtl'>יום א׳</span> (Yom Alef) - Day One
 2. <span dir='rtl'>יום ב׳</span> (Yom Bet) - Day Two
@@ -147,10 +147,10 @@ checkAstronomicalEvent(date, year)
 #### Formatting
 ```javascript
 formatSolarMonthTitle(monthIndex)
-// Returns: { main: "Ichika", sub: "Gregorian: March-April" }
+// Returns: { main: "Hibiki", sub: "Gregorian: March-April" }
 
 formatGregorianMonthTitle(gregorianMonthIndex)
-// Returns: { main: "March", sub: "Solar: Tomita-Ichika" }
+// Returns: { main: "March", sub: "Solar: Tomita-Hibiki" }
 ```
 
 ## Usage

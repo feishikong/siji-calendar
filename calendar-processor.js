@@ -9,18 +9,18 @@ class CalendarProcessor {
   constructor() {
     // Current 13-month structure
     this.calendarStructure = [
-      { name: 'Ichika', days: 28, startDay: 1 },
+      { name: 'Hibiki', days: 28, startDay: 1 },
       { name: 'Futaba', days: 28, startDay: 29 },
-      { name: 'Mikasa', days: 28, startDay: 57 },
+      { name: 'Suzuka', days: 28, startDay: 57 },
       { name: 'Yotsuba', days: 28, startDay: 85 },
       { name: 'Itsuki', days: 28, startDay: 113 },
-      { name: 'Mutsumi', days: 28, startDay: 141 },
-      { name: 'Nanako', days: 28, startDay: 169 },
-      { name: 'Yabuki', days: 28, startDay: 197 },
+      { name: 'Mutsuki', days: 28, startDay: 141 },
+      { name: 'Nagisa', days: 28, startDay: 169 },
+      { name: 'Hazuki', days: 28, startDay: 197 },
       { name: 'Kokoro', days: 28, startDay: 225 },
       { name: 'Tomoya', days: 28, startDay: 253 },
-      { name: 'Toichi', days: 28, startDay: 281 },
-      { name: 'Tofuro', days: 28, startDay: 309 },
+      { name: 'Towasa', days: 28, startDay: 281 },
+      { name: 'Tojima', days: 28, startDay: 309 },
       { name: 'Tomita', days: 28, startDay: 337 } // Ends on day 365
     ];
 
