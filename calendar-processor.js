@@ -26,7 +26,7 @@ class CalendarProcessor {
 
     this.gregorianMonths = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
     this.dayNames = ['יום א׳', 'יום ב׳', 'יום ג׳', 'יום ד׳', 'יום ה׳ ', 'יום ו׳', 'שבת'];
-    this.dayNamesFull = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+    this.weekNumbers = ['αʹ', 'βʹ', 'γʹ', 'δʹ'];
     this.firstDayOfYear = {};
     this.gregorianYear = {};
     this.lunarDay = {}
@@ -238,10 +238,13 @@ class CalendarProcessor {
 	 else return { monthIndex: 0, day: 0, year: solarYear + 1, specialDay: "Equinox Day", monthNumber: 1 }
     }
 
+    let weekOfMonth = Math.floor(dayOfMonth / 7);
+    if(dayOfMonth % 7 == 0) weekOfMonth--;
+
     return {
       monthIndex: monthIndex,
       month: month,
-      day: dayOfMonth,
+      day: this.weekNumbers[weekOfMonth],
       lday: lunarDay,
       year: solarYear,
       monthName: month.name,

@@ -38,9 +38,10 @@ Solar: Tomita-Ichika
 ### Shisan Date Format
 Shisan dates are formatted as
 ```
-Month-Name SolarDay:LunarDay
+Month-Name WeekNumberʹLunarDay
 ```
-so a date such as "2 April 2026" becomes `Ichika 13:14`
+where Weeknumber is rendered with Greek numerals
+so a date such as "2 April 2026" becomes `Ichika αʹ14`
 
 ### Astronomical Events
 Both calendars display:
