@@ -97,6 +97,19 @@ The Solar month names are derived from Japanese numerals:
 12. **Tofuro** - Tō + Futa: 10 + 2
 13. **Tomita** - Tō + Mi(tsu): 10 + 3
 
+### Weekday Name Origins
+
+The weekdays are borrowed from the Hebrew calendar which are numerical with the exception of the seventh day
+the numerical names are abbreviated using Hebrew numberals
+
+1. יום א׳ (Yom Alef) - Day One
+2. יום ב׳ (Yom Bet) - Day Two
+3. יום ג׳ (Yom Gimel) - Day Three
+4. יום ד׳ (Yom Dalet) - Day Four
+5. יום ה׳ (Yom Heh) - Day Five
+6. יום ו׳ (Yom Vav) - Day Six
+7. שבת (Shabbat) - (Day of) Rest
+
 ## CalendarProcessor Class
 
 The `CalendarProcessor` class provides:
