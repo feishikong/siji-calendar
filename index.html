@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Shisan Calendar</title>
+  <title>Siji Calendar</title>
   <link rel="stylesheet" href="calendar-styles.css">
    <style>
       .year-extra-days {
@@ -40,14 +40,14 @@
       }
       .month.active {
          flex-grow: 1; /* Allow active month to fill space */
-         grid-template-rows: auto repeat(4, 1fr); /* Header row + 4 week rows */
+         grid-template-rows: auto repeat(13, 1fr); /* Header row + 4 week rows */
       }
    </style>
 </head>
 <body>
   <div class="container">
     <header>
-      <h1>🗓️ Shisan Calendar</h1>
+      <h1>🗓️ Siji Calendar</h1>
       <div class="controls">
         <div class="control-group">
           <label for="year-input">Year:</label>
@@ -65,11 +65,11 @@
         ◀◀ Year
       </button>
       <button class="nav-btn" id="prev-btn" onclick="navigateMonth(-1)">
-        ◀ Month
+        ◀ Seasson
       </button>
       <div class="month-indicator" id="current-month-indicator">Month 1</div>
       <button class="nav-btn" id="next-btn" onclick="navigateMonth(1)">
-        Month ▶
+        Season ▶
       </button>
       <button class="nav-btn" id="next-year-btn" onclick="navigateYear(1)">
         Year ▶▶
@@ -142,7 +142,8 @@
 
         // Headers: Mon -> Sun
 	     const firstDayOfWeek = calendarProcessor.firstDayOfYear[selectedYear];
-	     calendarProcessor.calendarStructure[12].days = calendarProcessor.isSolarLeapYear(selectedYear) ? 29 : 28;
+	     const lastMonth = calendarProcessor.calendarStructure.length - 1;
+	     calendarProcessor.calendarStructure[lastMonth].days = calendarProcessor.isSolarLeapYear(selectedYear) ? 92 : 91;
         for (let i = firstDayOfWeek; i <= firstDayOfWeek + 6; i++) {
             dayIndex = i % 7;
             const header = document.createElement('div'); header.className = 'header';
@@ -171,11 +172,11 @@
               badge.textContent = astroEvent.icon; dayDiv.appendChild(badge);
             }
             const dayNumber = document.createElement('div'); dayNumber.className = 'day-number';
-            weekOfMonth=Math.floor(dayOfMonth/7);
+            weekOfMonth=Math.floor(dayOfMonth / 7) + 1;
             if(dayOfMonth%7 == 0) weekOfMonth--;
             if(dayOfMonth == 0) dayNumber.textContent = "Equinox Day";
-            else if(dayOfMonth == 29) dayNumber.textContent = "Leap Day";
-	    else dayNumber.textContent = `${calendarProcessor.weekNumbers[weekOfMonth]}${calendarProcessor.lunarDay}`;
+            else if(dayOfMonth == 92) dayNumber.textContent = "Leap Day";
+	    else dayNumber.textContent = `${calendarProcessor.lunarDayOfMonth[calendarProcessor.lunarDay]}${weekOfMonth}`;
 	    dayDiv.appendChild(dayNumber);
 
 
@@ -194,7 +195,7 @@
         }
         container.appendChild(monthDiv);
         if (this.gregorianYear > 2100) return;
-      if(calendarProcessor.calendarStructure[monthIndex].days == 29 || monthIndex == 0) document.getElementById(`month-${monthIndex}`).classList.add("leap");
+      if(calendarProcessor.calendarStructure[monthIndex].days == 92 || monthIndex == 0) document.getElementById(`month-${monthIndex}`).classList.add("leap");
       });
       updateDisplay();
     }
@@ -207,15 +208,16 @@
       const titleData = calendarProcessor.formatSolarMonthTitle(currentMonth, selectedYear);
       const indicator = document.getElementById('current-month-indicator');
       indicator.innerHTML = `<span class="month-title-main">${titleData.main}</span><span class="month-title-sub">${titleData.sub}</span>`;
-      displayAstronomicalEvents();
+      //displayAstronomicalEvents();
     }
 
     function navigateMonth(direction) {
        if (!selectedYear) return;
       let newMonth = currentMonth + direction;
-      if (newMonth < 0) { selectedYear--; if (selectedYear < 2001) selectedYear = 2001; newMonth = 12; document.getElementById('year-input').value = selectedYear; generateCalendar(); }
-      else if (newMonth >= 13) { selectedYear++; if (selectedYear > 2100) selectedYear = 2100; newMonth = 0; document.getElementById('year-input').value = selectedYear; generateCalendar(); }
-      else if (newMonth >= 11 && selectedYear == 2100) {
+      const lastMonth = calendarProcessor.calendarStructure.length - 1;
+      if (newMonth < 0) { selectedYear--; if (selectedYear < 2001) selectedYear = 2001; newMonth = lastMonth; document.getElementById('year-input').value = selectedYear; generateCalendar(); }
+      else if (newMonth >= calendarProcessor.calendarStructure.length) { selectedYear++; if (selectedYear > 2100) selectedYear = 2100; newMonth = 0; document.getElementById('year-input').value = selectedYear; generateCalendar(); }
+      else if (newMonth >= (lastMonth - 1) && selectedYear == 2100) {
 	      console.log(calendarProcessor.gregorianYear);
 	      selectedYear=2100; newMonth =0; document.getElementById('year-input').value =selectedYear; generateCalendar();
       }
@@ -257,7 +259,7 @@
       let dateToHighlight = null;
       if (targetMonth) {
         const monthIndex = parseInt(targetMonth);
-        if (monthIndex >= 0 && monthIndex < 13) monthToSet = monthIndex;
+        if (monthIndex >= 0 && monthIndex < calendarProcessor.calendarStructure.length) monthToSet = monthIndex;
       } else if(targetYear && targetDate === null) {
 	      return dateToHighlight;
       } else  {
@@ -276,7 +278,7 @@
                      if (solarInfo.year !== selectedYear) { selectedYear = solarInfo.year; document.getElementById('year-input').value = selectedYear; }
                      monthToSet = solarInfo.monthIndex; dateToHighlight = todayStr;
                  } else if (solarInfo && solarInfo.specialDay) {
-                      monthToSet = 12; dateToHighlight = todayStr;
+                      monthToSet = calendarProcessor.calendarStructure.length - 1; dateToHighlight = todayStr;
                  }
              }
          }

@@ -1,7 +1,7 @@
 # Solar & Gregorian Calendar System
 
 ## Overview
-A comprehensive dual-calendar system displaying both Solar (13 month Spring Equinox aligned) and Gregorian calendars with full astronomical event tracking and cross-calendar linking.
+A comprehensive dual-calendar system displaying both Solar (divided into seasons aligned with the Northern Spring Equinox) and Gregorian calendars with full astronomical event tracking and cross-calendar linking.
 
 ## Files
 
@@ -18,37 +18,54 @@ A comprehensive dual-calendar system displaying both Solar (13 month Spring Equi
 ## Features
 
 ### Solar Calendar Display Format
-Each month shows:
+Each season shows:
 ```
-Hibiki
-Gregorian: March-April
+Akira
+Gregorian: March-June
 ```
-- **Solar Month**: Names derived from Japanese Numerals
+- **Solar Season**: Names derived from Japanese season names
 - **Gregorian Months**: Corresponding Gregorian months that overlap
 
 ### Gregorian Calendar Display Format
 Each month shows:
 ```
 March
-Solar: Tomita-Hibiki
+Solar: Natsuki-Akira
 ```
 - **Gregorian Month**: Standard month name
-- **Solar Months**: Corresponding Solar month names
+- **Solar Season(s)**: Corresponding Solar season name(s)
 
-### Shisan Date Format
-Shisan dates are formatted as
+### Siji Date Format
+Siji dates are formatted as
 ```
-Month-Name WeekNumberʹLunarDay
+Season-name LunarDayʹWeekNumber
 ```
-where Weeknumber is rendered with Greek numerals
-so a date such as "22 March 2027" becomes `2027 Hibiki αʹ14`
+where the lunar day is rendered with Greek numerals
+so a date such as "22 March 2027" becomes `2027 Akira ιεʹ1`
+
+#### Greek Numerals reference table
+
+|Numeral|Name   |value|
+|-------|-------|-----|
+| αʹ 	|alpha  |  1  |
+| βʹ 	|beta   |  2  |
+| γʹ 	|gamma  |  3  |
+| δʹ 	|delta  |  4  |
+| εʹ 	|epsilon|  5  |
+| ϛʹ 	|stigma |  6  |
+| ζʹ 	|zeta 	|  7  |
+| ηʹ 	|eta 	|  8  |
+| θʹ 	|theta 	|  9  |
+| ιʹ 	|iota 	| 10  |
+| κʹ 	|kappa 	| 20  |
+| λʹ 	|lambda	| 30  |
 
 ### Astronomical Events
 Both calendars display:
-- 🌱 **Vernal Equinox** - Spring begins
-- ☀️  **Summer Solstice** - Longest day
-- 🍂 **Autumn Equinox** - Fall begins
-- ❄️  **Winter Solstice** - Shortest day
+- 🌱 **Vernal Equinox** - Spring begins in the Northern Hemisphere
+- ☀️  **Summer Solstice** - Longest day in the Northern Hemisphere
+- 🍂 **Autumn Equinox** - Fall begins in the Northern Hemisphere
+- ❄️  **Winter Solstice** - Shortest day in the Northern Hemisphere
 - 🌑 **New Moon** - Lunation cycle starts
 - 🌓 **First Quarter** - 7 days after New Moon
 - 🌕 **Full Moon** - 14 days after New Moon
@@ -76,27 +93,22 @@ Features:
 - Gregorian calendar day → Opens exact date in Solar calendar
 
 ### Calendar Name Origin
-The name of the calendar is derived from Chinese numerals based on the fact that it has 13 months
+The name of the calendar is derived from the Chinese word meaning The Four Seasons:
 
-**Shisan** - Shísān 10 + 3
+**Siji** - 四季 (Sìjì): The Four Seasons
 
-### Month Name Origins
+### Season Name Origins
 
-The Solar month names are derived from Japanese numerals:
+The Solar month names are derived from Japanese names for the seasons:
 
-1. **Hibiki** - Hi(tori): 1
-2. **Furuta** - Fu(tari): 2
-3. **Suzuka** - Su(rī): 3
-4. **Yotsuba** - Yotsu: 4
-5. **Itsuki** - Itsu: 5
-6. **Mugino** - Mu(tsu): 6
-7. **Nagisa** - Na(na): 7
-8. **Hazuki** - Ha(chi): 8
-9. **Kokoro** - Koko(notsu): 9
-10. **Tomoya** - Tō: 10
-11. **Towasa** - Tō + Wa(n): 10 + 1
-12. **Tojima** - Tō + Ji: 10 + 2
-13. **Tomita** - Tō + Mi(tsu): 10 + 3
+1. **Akira** - 秋 (Aki): Autumn
+2. **Fuyuki** - 冬 (Fuyu): Winter
+3. **Haruka** - 春 (Haru): Spring
+4. **Natsuki** - 夏 (Natsu): Summer
+
+#### Reasoning
+
+While English season names could be used, those seasons are inverted for the Southern Hemisphere of our planet. When it is Spring in the Northern Hemisphere it is Summer in the south. For this reason Spring is called Akira instead of Haruka.
 
 ### Weekday Name Origins
 
@@ -110,6 +122,10 @@ the numerical names are abbreviated using Hebrew numerals
 5. <span dir='rtl'>יום ה׳</span> (Yom Heh) - Day Five
 6. <span dir='rtl'>יום ו׳</span> (Yom Vav) - Day Six
 7. <span dir='rtl'>שבת</span> (Shabbat) - (Day of) Rest
+
+### Reasoning
+
+I'm already using Japanese names for names of the season, so why not hebrew names for the days of the week?
 
 ## CalendarProcessor Class
 
@@ -147,10 +163,10 @@ checkAstronomicalEvent(date, year)
 #### Formatting
 ```javascript
 formatSolarMonthTitle(monthIndex)
-// Returns: { main: "Hibiki", sub: "Gregorian: March-April" }
+// Returns: { main: "Akira", sub: "Gregorian: March-April" }
 
 formatGregorianMonthTitle(gregorianMonthIndex)
-// Returns: { main: "March", sub: "Solar: Tomita-Hibiki" }
+// Returns: { main: "March", sub: "Siji: Natsuki-Akira" }
 ```
 
 ## Usage
@@ -168,7 +184,7 @@ calendar-styles.css
 Each HTML file works independently and includes all necessary JavaScript inline.
 
 ### Year Selection
-Both calendars support years 2001-2082 through the year input control.
+Both calendars support years 2001-2100 through the year input control.
 
 ### Theme Toggle
 - Light/Dark mode toggle
@@ -176,22 +192,22 @@ Both calendars support years 2001-2082 through the year input control.
 - System preference detection
 
 ### Navigation
-- Previous/Next month buttons
-- Smooth scrolling between months
-- Active month indicator
-- **Clickable month headings** - hover to see link effect, click to navigate to other calendar (TODO)
-- Month headings show hover state to indicate they are clickable
+- Previous/Next month/season buttons
+- Smooth scrolling between months/seasons
+- Active month/season indicator
+- **Clickable month/season headings** - hover to see link effect, click to navigate to other calendar (TODO)
+- Month/Season headings show hover state to indicate they are clickable (TODO)
 
 ## Technical Details
 
 ### Solar Calendar
 - Based on astronomical observations
 - Starts at Vernal Equinox (Nowruz - Persian New Year)
-- First month: 29 days (0-28)
+- First season: 92 days (0-91)
   - Day 0 is labeled "Equinox Day"
-- Next 11 months: 28 days each
-- Last month: 28 days (29 in leap years)
-  - Day 29 is labeled "Leap Day"
+- Next 2 seasons: 91 days each
+- Last season: 91 days (92 in leap years)
+  - Day 92 is labeled "Leap Day"
 
 ### Date Calculations
 - Solar year starts March 20/21 (Vernal Equinox)
@@ -217,5 +233,5 @@ Modify `calendar-styles.css` to customize:
 This calendar system is provided as-is for educational and personal use.
 
 ## Credits
-Shisan calendar is derived from the solar calendar system by [Tom Gould](https://github.com/tomgould).
+Siji calendar is derived from the solar calendar system by [Tom Gould](https://github.com/tomgould).
 Astronomical event calculations are based on the [Solstice and Equinox Table](https://www.astropixels.com/ephemeris/soleq2001.html) and [Moon Phases Table](https://www.astropixels.com/ephemeris/moon/phases2001gmt.html) Courtesy of Fred Espenak, www.Astropixels.com

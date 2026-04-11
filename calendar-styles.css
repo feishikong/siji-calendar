@@ -132,7 +132,7 @@ input[type="number"]:focus { outline: none; border-color: var(--accent-primary);
     height: 100%; /* Ensure it takes full height of container */
 }
 .month.active.leap {
-    grid-template-rows: auto repeat(5, 1fr);
+    grid-template-rows: auto repeat(14, 1fr);
 }
 /* Adjust grid rows for Gregorian calendar (can have up to 6 weeks) */
 .gregorian-calendar .month.active { /* Add class to body in gregorian-calendar.html */

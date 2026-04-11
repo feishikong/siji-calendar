@@ -9,25 +9,16 @@ class CalendarProcessor {
   constructor() {
     // Current 13-month structure
     this.calendarStructure = [
-      { name: 'Hibiki', days: 28, startDay: 1 },
-      { name: 'Furuta', days: 28, startDay: 29 },
-      { name: 'Suzuka', days: 28, startDay: 57 },
-      { name: 'Yotsuba', days: 28, startDay: 85 },
-      { name: 'Itsuki', days: 28, startDay: 113 },
-      { name: 'Mugino', days: 28, startDay: 141 },
-      { name: 'Nagisa', days: 28, startDay: 169 },
-      { name: 'Hazuki', days: 28, startDay: 197 },
-      { name: 'Kokoro', days: 28, startDay: 225 },
-      { name: 'Tomoya', days: 28, startDay: 253 },
-      { name: 'Towasa', days: 28, startDay: 281 },
-      { name: 'Tojima', days: 28, startDay: 309 },
-      { name: 'Tomita', days: 28, startDay: 337 } // Ends on day 365
+      { name: 'Akira', days: 91, startDay: 1 },
+      { name: 'Fuyuki', days: 91, startDay: 92 },
+      { name: 'Haruka', days: 91, startDay: 183 },
+      { name: 'Natsuki', days: 91, startDay: 274 } // Ends on day 365
     ];
 
     this.gregorianMonths = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
     this.gregorianDayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
     this.dayNames = ['יום א׳', 'יום ב׳', 'יום ג׳', 'יום ד׳', 'יום ה׳ ', 'יום ו׳', 'שבת'];
-    this.weekNumbers = ['αʹ', 'βʹ', 'γʹ', 'δʹ'];
+    this.lunarDayOfMonth = ['αʹ', 'βʹ', 'γʹ', 'δʹ', 'εʹ', 'ϛʹ', 'ζʹ', 'ηʹ', 'θʹ', 'ιʹ', 'ιαʹ', 'ιβʹ', 'ιγʹ', 'ιδʹ', 'ιεʹ', 'ιϛʹ', 'ιζʹ', 'ιηʹ', 'ιθʹ', 'κʹ', 'καʹ', 'κβʹ', 'κγʹ', 'κδʹ', 'κεʹ', 'κϛʹ', 'κζʹ', 'κηʹ', 'κθʹ', 'λʹ'];
     this.firstDayOfYear = {};
     this.gregorianYear = {};
     this.lunarDay = {}
@@ -49,9 +40,9 @@ class CalendarProcessor {
   async loadAstronomicalData() {
     try {
       const [ response, newMoon, sunCalc ] = await Promise.all([
-	      fetch('https://feishikong.github.io/Shisan-calendar/data/equinoxes-and-solstices/'),
-	      fetch('https://feishikong.github.io/Shisan-calendar/data/new-moons/'),
-	      import('https://feishikong.github.io/Shisan-calendar/data/suncalc.js')
+	      fetch('https://feishikong.github.io/siji-calendar/data/equinoxes-and-solstices/'),
+	      fetch('https://feishikong.github.io/siji-calendar/data/new-moons/'),
+	      import('https://feishikong.github.io/siji-calendar/data/suncalc.js')
       ]);
       this.sunCalc = sunCalc;
       if (!response.ok) {
@@ -180,7 +171,7 @@ class CalendarProcessor {
     if (!startDate || !nextStartDate) {
       // Fallback approximation if data is missing
       const leapMonthDays = new Date(solarYear, 2, 0).getDate();
-      return leapMonthDays === 29;
+      return leapMonthDays === 92;
     }
 
     const diffDays = nextStartDate.getUTCDate() - endDate.getUTCDate();
@@ -227,21 +218,23 @@ class CalendarProcessor {
 
 
     // Regular day within the 13 months
-    const monthIndex = Math.floor(daysSinceSolarYearStart / 28);
-    const dayOfMonth = (daysSinceSolarYearStart % 28) + 1;
+    const monthLength = this.calendarStructure[0].days;
+    const monthIndex = Math.floor(daysSinceSolarYearStart / monthLength);
+    const dayOfMonth = (daysSinceSolarYearStart % monthLength) + 1;
     const lunarDay = this.getLunarDay(gDateUTC);
 
     const isLeap = this.isSolarLeapYear(solarYear);
     const month = this.calendarStructure[monthIndex];
+    const lastMonth = this.calendarStructure.length - 1;
     if (monthIndex < 0 || monthIndex >= this.calendarStructure.length) {
-	 if(monthIndex > 13) return null; // Index out of bounds
-	 if(daysSinceSolarYearStart === 364 && isLeap) return { monthIndex: 12, day: 0, year: solarYear, specialDay: "Leap Day", monthNumber: 12 }
+	 if(monthIndex > this.calendarStructure.length) return null; // Index out of bounds
+	 if(daysSinceSolarYearStart === 364 && isLeap) return { monthIndex: lastMonth, day: 0, year: solarYear, specialDay: "Leap Day", monthNumber: lastMonth }
 	 else return { monthIndex: 0, day: 0, year: solarYear + 1, specialDay: "Equinox Day", monthNumber: 1 }
     }
 
-    let weekOfMonth = Math.floor(dayOfMonth / 7);
+    let weekOfMonth = Math.floor(dayOfMonth / 7) + 1;
     if(dayOfMonth % 7 == 0) weekOfMonth--;
-    const shisanDay = this.weekNumbers[weekOfMonth]+lunarDay;
+    const shisanDay = this.lunarDayOfMonth[lunarDay]+weekOfMonth;
 
     return {
       monthIndex: monthIndex,
@@ -288,10 +281,11 @@ class CalendarProcessor {
     const solarEndInfo = this.getSolarDateFromGregorian(gregMonthEndDate);
     const startMonthName = solarStartInfo.monthName;
     const endMonthName = solarEndInfo.monthName;
-    const solarInfoStr = `${startMonthName}-${endMonthName}`;
+    let solarInfoStr = `${startMonthName}-${endMonthName}`;
+    if(startMonthName == endMonthName) solarInfoStr = startMonthName;
     return {
       main: `${gregorianMonthName}`,
-      sub: ` Solar: ${solarInfoStr}`
+      sub: ` Siji: ${solarInfoStr}`
     };
   }
 
