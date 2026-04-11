@@ -204,7 +204,7 @@ Both calendars support years 2001-2100 through the year input control.
 - Based on astronomical observations
 - Starts at Vernal Equinox (Nowruz - Persian New Year)
 - First season: 92 days (0-91)
-  - Day 0 is labeled "Equinox Day"
+  - Day 0 is labeled "New Day"
 - Next 2 seasons: 91 days each
 - Last season: 91 days (92 in leap years)
   - Day 92 is labeled "Leap Day"
