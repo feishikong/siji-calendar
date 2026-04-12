@@ -141,16 +141,20 @@
         monthDiv.className = 'month'; monthDiv.id = `month-${monthIndex}`;
 
         // Headers: Mon -> Sun
-	     const firstDayOfWeek = calendarProcessor.firstDayOfYear[selectedYear];
 	     const lastMonth = calendarProcessor.calendarStructure.length - 1;
 	     calendarProcessor.calendarStructure[lastMonth].days = calendarProcessor.isSolarLeapYear(selectedYear) ? 92 : 91;
-        for (let i = firstDayOfWeek; i <= firstDayOfWeek + 6; i++) {
+        for (let i = 0; i <= 6; i++) {
             dayIndex = i % 7;
             const header = document.createElement('div'); header.className = 'header';
             header.textContent = calendarProcessor.dayNames[dayIndex]; monthDiv.appendChild(header);
         }
+	     const firstDayOfYear = calendarProcessor.firstDayOfYear[selectedYear] - 1;
 	      if(monthIndex == 0 ){
-		      for (let i = 0; i < 6; i++){
+		      for (let i = 0; i < firstDayOfYear; i++){
+			      const emptyDay = document.createElement('div'); emptyDay.className = 'day empty'; monthDiv.appendChild(emptyDay);
+		      }
+	      } else {
+		      for (let i = 0; i < calendarProcessor.firstDayOfYear[selectedYear]; i++) {
 			      const emptyDay = document.createElement('div'); emptyDay.className = 'day empty'; monthDiv.appendChild(emptyDay);
 		      }
 	      }
