@@ -229,7 +229,7 @@ class CalendarProcessor {
     if (monthIndex < 0 || monthIndex >= this.calendarStructure.length) {
 	 if(monthIndex > this.calendarStructure.length) return null; // Index out of bounds
 	 if(daysSinceSolarYearStart === 364 && isLeap) return { monthIndex: lastMonth, day: 0, year: solarYear, specialDay: "Leap Day", monthNumber: lastMonth }
-	 else return { monthIndex: 0, day: 0, year: solarYear + 1, specialDay: "New Day", monthNumber: 1 }
+	 else return { monthIndex: 0, day: 0, year: solarYear + 1, specialDay: "Day 0", monthNumber: 1 }
     }
 
     let weekOfMonth = Math.floor(dayOfMonth / 7) + 1;

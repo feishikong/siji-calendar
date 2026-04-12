@@ -106,7 +106,7 @@
         const day = date.getUTCDate(); const dayName = calendarProcessor.dayNames[date.getUTCDay()];
           const solarInfo = calendarProcessor.getSolarDateFromGregorian(date); // Get the Solar info
           let dateEvent = solarInfo.monthName + " " + solarInfo.day;
-          if(event.key == "vernalEquinox") dateEvent = "New Day";
+          if(event.key == "vernalEquinox") dateEvent = "Day 0";
         return `<div class="astro-event ${event.class}" onclick="navigateToGregorianEvent('${event.key}')"><div class="astro-event-icon">${event.title.split(' ')[0]}</div><div class="astro-event-title">${event.title.substring(3)}</div><div class="astro-event-date">${dayName}, ${dateEvent}</div><div class="astro-tooltip">${event.description}<br><small>${event.time}</small></div></div>`;
       }).join('');
     }
@@ -171,7 +171,7 @@
             const dayNumber = document.createElement('div'); dayNumber.className = 'day-number';
             weekOfMonth=Math.floor(dayOfMonth / 7) + 1;
             if(dayOfMonth%7 == 0) weekOfMonth--;
-            if(dayOfMonth == 0) dayNumber.textContent = "New Day";
+            if(dayOfMonth == 0) dayNumber.textContent = "Day 0";
             else if(dayOfMonth == 92) dayNumber.textContent = "Leap Day";
 	    else dayNumber.textContent = `${calendarProcessor.lunarDayOfMonth[calendarProcessor.lunarDay]}${weekOfMonth}`;
 	    dayCell.appendChild(dayNumber);

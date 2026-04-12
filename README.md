@@ -38,7 +38,7 @@ Solar: Natsuki-Akira
 ### Siji Date Format
 Siji dates are formatted as
 ```
-Season-name LunarDayʹWeekNumber
+Season-name LunarDayʹSolarWeek
 ```
 where the lunar day is rendered with Greek numerals
 so a date such as "22 March 2027" becomes `2027 Akira ιεʹ1`
@@ -203,8 +203,7 @@ Both calendars support years 2001-2100 through the year input control.
 ### Solar Calendar
 - Based on astronomical observations
 - Starts at Vernal Equinox (Nowruz - Persian New Year)
-- First season: 92 days (0-91)
-  - Day 0 is labeled "New Day"
+- First season: 92 days (Day 0 + 13 Solar Weeks)
 - Next 2 seasons: 91 days each
 - Last season: 91 days (92 in leap years)
   - Day 92 is labeled "Leap Day"
