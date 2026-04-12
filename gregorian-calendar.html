@@ -138,19 +138,22 @@
           const gregorianDateStr = calendarProcessor.toISODateString(gregorianDate);
           dayDiv.setAttribute('data-gregorian-date', gregorianDateStr);
           if (gregorianDateStr === todayStr) dayDiv.classList.add('today');
+          const solarInfo = calendarProcessor.getSolarDateFromGregorian(gregorianDate); // Get the Solar info
+          const dayCell = document.createElement('div'); dayCell.className = 'day-cell';
+          dayDiv.appendChild(dayCell);
+          const dayNumber = document.createElement('div'); dayNumber.className = 'day-ordinal';
+          dayNumber.textContent = `${dayOfMonth}`; dayCell.appendChild(dayNumber);
           const astroEvent = calendarProcessor.checkAstronomicalEvent(gregorianDate, selectedYear);
           if (astroEvent) {
             dayDiv.classList.add(astroEvent.class);
             const badge = document.createElement('div'); badge.className = 'astro-badge';
-            badge.textContent = astroEvent.icon; dayDiv.appendChild(badge);
+            badge.textContent = astroEvent.icon; dayCell.appendChild(badge);
           }
-          const solarInfo = calendarProcessor.getSolarDateFromGregorian(gregorianDate); // Get the Solar info
-          const dayNumber = document.createElement('div'); dayNumber.className = 'day-ordinal';
-          dayNumber.textContent = `${dayOfMonth}`; dayDiv.appendChild(dayNumber);
           if (solarInfo) { // Display Solar Info
               if (solarInfo.specialDay) {
-                  const specialInfo = document.createElement('div'); specialInfo.className = 'solar-info special-day';
-                  specialInfo.textContent = solarInfo.specialDay; dayDiv.appendChild(specialInfo);
+                  const specialInfo = document.createElement('div'); specialInfo.className = 'solar-info';
+                  specialInfo.innerHTML = `<div class="day-label">Siji:</div><div class="day-solar"><span class="special-day">${solarInfo.specialDay}</span> </div>`;
+                  dayDiv.appendChild(specialInfo);
               } else {
                   const solarDisp = document.createElement('div'); solarDisp.className = 'solar-info';
 		  solarDisp.innerHTML = `<div class="day-label">Siji:</div><div class="day-solar"><span class="solar-month-name">${solarInfo.monthName}</span> <span class="solar-day-number">${solarInfo.day}</span></div>`;
