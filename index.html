@@ -185,6 +185,7 @@
             const { month: gMonth, day: gDay } = formatGregorianDateForDisplay(gregorianDate);
             const gregorianInfo = document.createElement('div'); gregorianInfo.className = 'gregorian-date';
 
+            if(gregorianDate.getUTCMonth() % 2 != 0) dayDiv.classList.add('even');
             gregorianInfo.innerHTML = `${gMonth.substring(0,3)} ${gDay}`; dayDiv.appendChild(gregorianInfo);
             dayDiv.style.cursor = 'pointer';
             dayDiv.addEventListener('click', () => { window.location.href = `gregorian-calendar.html?date=${gregorianDateStr}&year=${selectedYear}`; });
