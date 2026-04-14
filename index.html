@@ -180,7 +180,9 @@
             if(dayOfMonth == 0) dayNumber.textContent = "Day 0";
             else if(dayOfMonth == 92) dayNumber.textContent = "Leap Day";
               else dayNumber.textContent = `${calendarProcessor.lunarMonth[lunarMonth % 5]}${calendarProcessor.lunarDayOfMonth[calendarProcessor.lunarDay]}${weekOfMonth}`;
-	    dayCell.appendChild(dayNumber);
+            const { month: gMonth, day: gDay } = formatGregorianDateForDisplay(gregorianDate);
+            const gregorianInfo = document.createElement('div'); gregorianInfo.className = 'gregorian-date';
+            gregorianInfo.innerHTML = `${gMonth.substring(0,3)} ${gDay}`; dayCell.appendChild(gregorianInfo);
             if (astroEvent) {
               dayDiv.classList.add(astroEvent.class);
               const badge = document.createElement('div'); badge.className = 'astro-badge';
@@ -188,13 +190,11 @@
             }
 
 
-            const { month: gMonth, day: gDay } = formatGregorianDateForDisplay(gregorianDate);
-            const gregorianInfo = document.createElement('div'); gregorianInfo.className = 'gregorian-date';
 
               if(lunarMonth % 2 != 0) {
                   dayDiv.classList.add('even');
               }
-            gregorianInfo.innerHTML = `${gMonth.substring(0,3)} ${gDay}`; dayDiv.appendChild(gregorianInfo);
+            dayDiv.appendChild(dayNumber);
             dayDiv.style.cursor = 'pointer';
             dayDiv.addEventListener('click', () => { window.location.href = `gregorian-calendar.html?date=${gregorianDateStr}&year=${selectedYear}`; });
           } else  if (gregorianDate.getUTCFullYear() > 2100) {
