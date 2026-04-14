@@ -38,13 +38,23 @@ Solar: Natsuki-Akira
 ### Siji Date Format
 Siji dates are formatted as
 ```
-Season-name LunarDayʹSolarWeek
+Season-name LunarMonth꧈LunarDayʹSolarWeek
 ```
-where the lunar day is rendered with Greek numerals
-so a date such as "22 March 2027" becomes `2027 Akira ιεʹ1`
+where the lunar Month is rendered with Javanese numerals while the lunar day is rendered with Greek numerals
+so a date such as "22 March 2027" becomes `2027 Akira ꧒꧈ιεʹ1`
 
-#### Greek Numerals reference table
+#### Numerals reference table
 
+##### Javanese Numerals
+|Numeral|Name   |value|
+|-------|-------|-----|
+| ꧑꧈ 	|siti   |  1  |
+| ꧒꧈ 	|loro   |  2  |
+| ꧓꧈ 	|telu   |  3  |
+| ꧔꧈ 	|papat  |  4  |
+| ꧕꧈ 	|lima   |  5  |
+
+##### Greek Numerals
 |Numeral|Name   |value|
 |-------|-------|-----|
 | αʹ 	|alpha  |  1  |

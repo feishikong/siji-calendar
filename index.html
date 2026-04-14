@@ -170,6 +170,7 @@
             dayDiv.setAttribute('data-gregorian-date', gregorianDateStr);
             if (gregorianDateStr === todayStr) dayDiv.classList.add('today');
             calendarProcessor.lunarDay = calendarProcessor.getLunarDay(gregorianDate);
+            const lunarMonth = calendarProcessor.getLunarMonth(gregorianDate);
             const astroEvent = calendarProcessor.checkAstronomicalEvent(gregorianDate, selectedYear);
 	    const dayCell = document.createElement('div'); dayCell.className = 'day-cell';
 	    dayDiv.appendChild(dayCell);
@@ -178,7 +179,7 @@
             if(dayOfMonth%7 == 0) weekOfMonth--;
             if(dayOfMonth == 0) dayNumber.textContent = "Day 0";
             else if(dayOfMonth == 92) dayNumber.textContent = "Leap Day";
-	    else dayNumber.textContent = `${calendarProcessor.lunarDayOfMonth[calendarProcessor.lunarDay]}${weekOfMonth}`;
+              else dayNumber.textContent = `${calendarProcessor.lunarMonth[lunarMonth]}${calendarProcessor.lunarDayOfMonth[calendarProcessor.lunarDay]}${weekOfMonth}`;
 	    dayCell.appendChild(dayNumber);
             if (astroEvent) {
               dayDiv.classList.add(astroEvent.class);
@@ -190,7 +191,9 @@
             const { month: gMonth, day: gDay } = formatGregorianDateForDisplay(gregorianDate);
             const gregorianInfo = document.createElement('div'); gregorianInfo.className = 'gregorian-date';
 
-            if(gregorianDate.getUTCMonth() % 2 != 0) dayDiv.classList.add('even');
+              if(lunarMonth % 2 != 0) {
+                  dayDiv.classList.add('even');
+              }
             gregorianInfo.innerHTML = `${gMonth.substring(0,3)} ${gDay}`; dayDiv.appendChild(gregorianInfo);
             dayDiv.style.cursor = 'pointer';
             dayDiv.addEventListener('click', () => { window.location.href = `gregorian-calendar.html?date=${gregorianDateStr}&year=${selectedYear}`; });

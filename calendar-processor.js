@@ -19,12 +19,14 @@ class CalendarProcessor {
     this.gregorianDayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
     this.dayNames = ['יום א׳', 'יום ב׳', 'יום ג׳', 'יום ד׳', 'יום ה׳ ', 'יום ו׳', 'שבת'];
     this.lunarDayOfMonth = ['αʹ', 'βʹ', 'γʹ', 'δʹ', 'εʹ', 'ϛʹ', 'ζʹ', 'ηʹ', 'θʹ', 'ιʹ', 'ιαʹ', 'ιβʹ', 'ιγʹ', 'ιδʹ', 'ιεʹ', 'ιϛʹ', 'ιζʹ', 'ιηʹ', 'ιθʹ', 'κʹ', 'καʹ', 'κβʹ', 'κγʹ', 'κδʹ', 'κεʹ', 'κϛʹ', 'κζʹ', 'κηʹ', 'κθʹ', 'λʹ'];
+    this.lunarMonth = ['꧑꧈', '꧒꧈', '꧓꧈', '꧔꧈', '꧕꧈', '꧖꧈' ];
     this.firstDayOfYear = {};
     this.gregorianYear = {};
     this.lunarDay = {}
     this.sunCalc = {};
     this.jerusalemNewMoon = {}; // Populated by loadAstronomicalData
     this.newMoonData = {}; // Populated by loadAstronomicalData
+    this.lunationMap = new Map(); // Populated by loadAstronomicalData
     this.vernalEquinoxData = {}; // Populated by loadAstronomicalData
     this.summerSolsticeData = {}; // Populated by loadAstronomicalData
     this.fallEquinoxData = {}; // Populated by loadAstronomicalData
@@ -158,6 +160,11 @@ class CalendarProcessor {
            this.jerusalemNewMoon[year] = this.newMoonData[year].map( date => this.findFirstCrescent(new Date(date)));
            this.firstDayOfYear[year] = this.getSolarYearStartDate(year).getUTCDay();
        }
+
+       const lunationData = Object.values(this.jerusalemNewMoon).flatMap(newMoon => newMoon).map( d => new Date(d)).forEach((date, i) => {
+          const lunation = ((i - 2) % 6 + 6) % 6;
+          this.lunationMap.set(date.toISOString(), lunation)
+       });
    }
 
   /**
@@ -222,6 +229,7 @@ class CalendarProcessor {
     const monthIndex = Math.floor(daysSinceSolarYearStart / monthLength);
     const dayOfMonth = (daysSinceSolarYearStart % monthLength) + 1;
     const lunarDay = this.getLunarDay(gDateUTC);
+    const lunarMonth = calendarProcessor.getLunarMonth(gDateUTC);
 
     const isLeap = this.isSolarLeapYear(solarYear);
     const month = this.calendarStructure[monthIndex];
@@ -234,7 +242,7 @@ class CalendarProcessor {
 
     let weekOfMonth = Math.floor(dayOfMonth / 7) + 1;
     if(dayOfMonth % 7 == 0) weekOfMonth--;
-    const shisanDay = this.lunarDayOfMonth[lunarDay]+weekOfMonth;
+    const shisanDay = this.lunarMonth[lunarMonth]+this.lunarDayOfMonth[lunarDay]+weekOfMonth;
 
     return {
       monthIndex: monthIndex,
@@ -339,11 +347,22 @@ class CalendarProcessor {
 		  const today = new Date(Date.UTC(gregorianDate.getUTCFullYear(), gregorianDate.getUTCMonth(), gregorianDate.getUTCDate(), newMoonDay.getUTCHours(), newMoonDay.getUTCMinutes(), newMoonDay.getUTCSeconds(), newMoonDay.getUTCMilliseconds()));
 		  return newMoonDay <= today;
 	  }).reduce((latest, date) => (latest === null || date > latest ? date: latest), null);
-	  if (newMoonDate == null) newMoonDate = new Date(this.newMoonData[year-1][this.newMoonData[year-1].length - 1]);
+	  if (newMoonDate == null) newMoonDate = new Date(this.jerusalemNewMoon[year-1][this.jerusalemNewMoon[year-1].length - 1]);
 	  const today = new Date(Date.UTC(gregorianDate.getUTCFullYear(), gregorianDate.getUTCMonth(), gregorianDate.getUTCDate(), newMoonDate.getUTCHours(), newMoonDate.getUTCMinutes(), newMoonDate.getUTCSeconds(), newMoonDate.getUTCMilliseconds()));
 	  const moonAgeTime = Math.abs(today - newMoonDate)
 	  const moonAge = Math.round(moonAgeTime / ( 1000 * 60 * 60 * 24))
 	  return moonAge;
+  }
+
+  getLunarMonth(gregorianDate){
+      const year = gregorianDate.getUTCFullYear();
+      let newMoonDate = this.jerusalemNewMoon[year].filter( newMoonDay => {
+              const today = new Date(Date.UTC(gregorianDate.getUTCFullYear(), gregorianDate.getUTCMonth(), gregorianDate.getUTCDate(), newMoonDay.getUTCHours(), newMoonDay.getUTCMinutes(), newMoonDay.getUTCSeconds(), newMoonDay.getUTCMilliseconds()));
+              return newMoonDay <= today;
+      }).reduce((latest, date) => (latest === null || date > latest ? date: latest), null);
+      if (newMoonDate == null) newMoonDate = new Date(this.jerusalemNewMoon[year-1][this.jerusalemNewMoon[year-1].length - 1]);
+      const lunarMonth = this.lunationMap.get(newMoonDate.toISOString());
+      return lunarMonth;
   }
 
   /**
