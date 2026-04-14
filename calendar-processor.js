@@ -19,7 +19,7 @@ class CalendarProcessor {
     this.gregorianDayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
     this.dayNames = ['יום א׳', 'יום ב׳', 'יום ג׳', 'יום ד׳', 'יום ה׳ ', 'יום ו׳', 'שבת'];
     this.lunarDayOfMonth = ['αʹ', 'βʹ', 'γʹ', 'δʹ', 'εʹ', 'ϛʹ', 'ζʹ', 'ηʹ', 'θʹ', 'ιʹ', 'ιαʹ', 'ιβʹ', 'ιγʹ', 'ιδʹ', 'ιεʹ', 'ιϛʹ', 'ιζʹ', 'ιηʹ', 'ιθʹ', 'κʹ', 'καʹ', 'κβʹ', 'κγʹ', 'κδʹ', 'κεʹ', 'κϛʹ', 'κζʹ', 'κηʹ', 'κθʹ', 'λʹ'];
-    this.lunarMonth = ['꧑꧈', '꧒꧈', '꧓꧈', '꧔꧈', '꧕꧈', '꧖꧈' ];
+    this.lunarMonth = ['꧑꧈', '꧒꧈', '꧓꧈', '꧔꧈', '꧕꧈'];
     this.firstDayOfYear = {};
     this.gregorianYear = {};
     this.lunarDay = {}
@@ -162,7 +162,7 @@ class CalendarProcessor {
        }
 
        const lunationData = Object.values(this.jerusalemNewMoon).flatMap(newMoon => newMoon).map( d => new Date(d)).forEach((date, i) => {
-          const lunation = ((i - 2) % 6 + 6) % 6;
+          const lunation = ((i - 2) % 10 + 10) % 10;
           this.lunationMap.set(date.toISOString(), lunation)
        });
    }
@@ -229,7 +229,7 @@ class CalendarProcessor {
     const monthIndex = Math.floor(daysSinceSolarYearStart / monthLength);
     const dayOfMonth = (daysSinceSolarYearStart % monthLength) + 1;
     const lunarDay = this.getLunarDay(gDateUTC);
-    const lunarMonth = calendarProcessor.getLunarMonth(gDateUTC);
+    const lunarMonth = calendarProcessor.getLunarMonth(gDateUTC) % 5;
 
     const isLeap = this.isSolarLeapYear(solarYear);
     const month = this.calendarStructure[monthIndex];

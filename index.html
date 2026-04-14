@@ -179,7 +179,7 @@
             if(dayOfMonth%7 == 0) weekOfMonth--;
             if(dayOfMonth == 0) dayNumber.textContent = "Day 0";
             else if(dayOfMonth == 92) dayNumber.textContent = "Leap Day";
-              else dayNumber.textContent = `${calendarProcessor.lunarMonth[lunarMonth]}${calendarProcessor.lunarDayOfMonth[calendarProcessor.lunarDay]}${weekOfMonth}`;
+              else dayNumber.textContent = `${calendarProcessor.lunarMonth[lunarMonth % 5]}${calendarProcessor.lunarDayOfMonth[calendarProcessor.lunarDay]}${weekOfMonth}`;
 	    dayCell.appendChild(dayNumber);
             if (astroEvent) {
               dayDiv.classList.add(astroEvent.class);
