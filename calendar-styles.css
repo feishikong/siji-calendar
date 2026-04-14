@@ -183,7 +183,7 @@ input[type="number"]:focus { outline: none; border-color: var(--accent-primary);
 /* --- Gregorian Calendar Specific Day Styles --- */
 .day-ordinal { font-size: 1rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.15rem; } /* Gregorian day number */
 .day-label { font-size: 0.6rem; color: var(--text-tertiary); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 0.1rem; }
-.day-solar { font-size: 0.65rem; color: var(--text-secondary); font-weight: 500; }
+.day-solar { font-family: 'Noto Sans Javanese', serif; font-size: 0.65rem; color: var(--text-secondary); font-weight: 500; }
 .solar-info { display: flex; flex-direction: column; gap: 0.1rem; margin-top: 0.3rem; }
 .solar-month-name { font-weight: 600; color: var(--accent-primary); }
 .solar-day-number { color: var(--text-secondary); }
