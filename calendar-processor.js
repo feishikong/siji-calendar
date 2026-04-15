@@ -19,7 +19,7 @@ class CalendarProcessor {
     this.gregorianDayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
     this.dayNames = ['יום א׳', 'יום ב׳', 'יום ג׳', 'יום ד׳', 'יום ה׳ ', 'יום ו׳', 'שבת'];
     this.lunarDayOfMonth = ['αʹ', 'βʹ', 'γʹ', 'δʹ', 'εʹ', 'ϛʹ', 'ζʹ', 'ηʹ', 'θʹ', 'ιʹ', 'ιαʹ', 'ιβʹ', 'ιγʹ', 'ιδʹ', 'ιεʹ', 'ιϛʹ', 'ιζʹ', 'ιηʹ', 'ιθʹ', 'κʹ', 'καʹ', 'κβʹ', 'κγʹ', 'κδʹ', 'κεʹ', 'κϛʹ', 'κζʹ', 'κηʹ', 'κθʹ', 'λʹ'];
-    this.lunarMonth = ['꧑꧈', '꧒꧈', '꧓꧈', '꧔꧈', '꧕꧈'];
+    this.lunarMonth = ['꧐', '꧑', '꧒', '꧓', '꧔', '꧕'];
     this.firstDayOfYear = {};
     this.gregorianYear = {};
     this.lunarDay = {}
@@ -27,6 +27,7 @@ class CalendarProcessor {
     this.jerusalemNewMoon = {}; // Populated by loadAstronomicalData
     this.newMoonData = {}; // Populated by loadAstronomicalData
     this.lunationMap = new Map(); // Populated by loadAstronomicalData
+    this.sarosMap = new Map(); // Populated by loadAstronomicalData
     this.vernalEquinoxData = {}; // Populated by loadAstronomicalData
     this.summerSolsticeData = {}; // Populated by loadAstronomicalData
     this.fallEquinoxData = {}; // Populated by loadAstronomicalData
@@ -165,6 +166,14 @@ class CalendarProcessor {
           const lunation = ((i - 2) % 10 + 10) % 10;
           this.lunationMap.set(date.toISOString(), lunation)
        });
+      let i = 0;
+      this.lunationMap.forEach((originalKey, value, index) => {
+          const sarosIndex = (i + 233) % 235;
+          i++;
+          const seximalNumber = sarosIndex.toString(6);
+          const javaneseSeximal= Array.from(seximalNumber).map(digit => this.lunarMonth[parseInt(digit)]).join('');
+          this.sarosMap.set(value, javaneseSeximal+"꧈");
+      });
    }
 
   /**
@@ -229,7 +238,7 @@ class CalendarProcessor {
     const monthIndex = Math.floor(daysSinceSolarYearStart / monthLength);
     const dayOfMonth = (daysSinceSolarYearStart % monthLength) + 1;
     const lunarDay = this.getLunarDay(gDateUTC);
-    const lunarMonth = calendarProcessor.getLunarMonth(gDateUTC) % 5;
+    const lunarMonth = calendarProcessor.getLunarMonth(gDateUTC);
 
     const isLeap = this.isSolarLeapYear(solarYear);
     const month = this.calendarStructure[monthIndex];
@@ -242,7 +251,7 @@ class CalendarProcessor {
 
     let weekOfMonth = Math.floor(dayOfMonth / 7) + 1;
     if(dayOfMonth % 7 == 0) weekOfMonth--;
-    const shisanDay = this.lunarMonth[lunarMonth]+this.lunarDayOfMonth[lunarDay]+weekOfMonth;
+    const shisanDay = lunarMonth.index+this.lunarDayOfMonth[lunarDay]+weekOfMonth;
 
     return {
       monthIndex: monthIndex,
@@ -361,8 +370,12 @@ class CalendarProcessor {
               return newMoonDay <= today;
       }).reduce((latest, date) => (latest === null || date > latest ? date: latest), null);
       if (newMoonDate == null) newMoonDate = new Date(this.jerusalemNewMoon[year-1][this.jerusalemNewMoon[year-1].length - 1]);
-      const lunarMonth = this.lunationMap.get(newMoonDate.toISOString());
-      return lunarMonth;
+      let className = "odd";
+      if (this.lunationMap.get(newMoonDate.toISOString()) % 2 != 0){
+          className = "even";
+      }
+      const index = this.sarosMap.get(newMoonDate.toISOString());
+      return {index, className};
   }
 
   /**
